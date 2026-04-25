@@ -41,6 +41,6 @@ public class Book {
     @Column(length = 2000)
     private String synopsis;
 
-    private Integer yearPublication;
+    private Integer publicationYear;
 
 }
