@@ -26,5 +26,4 @@
         <module>user-service</module>
         <module>book-service</module>
     </modules>
-
 </project>
