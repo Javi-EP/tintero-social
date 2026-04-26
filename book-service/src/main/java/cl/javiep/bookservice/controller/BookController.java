@@ -1,5 +1,7 @@
 package cl.javiep.bookservice.controller;
 
+import cl.javiep.bookservice.dto.BookRequestDTO;
+import cl.javiep.bookservice.dto.BookResponseDTO;
 import cl.javiep.bookservice.model.Book;
 import cl.javiep.bookservice.service.BookService;
 import jakarta.validation.Valid;
@@ -23,7 +25,7 @@ public class BookController {
     // GET /api/books → lista todos los libros
     // También acepta GET /api/books?title=harry para filtrar
     @GetMapping
-    public ResponseEntity<List<Book>> list(
+    public ResponseEntity<List<BookResponseDTO>> list(
             @RequestParam(required = false) String title) {
 
         if (title != null) {
@@ -34,7 +36,7 @@ public class BookController {
 
     // GET /api/books/{id} → retorna un libro por su ID
     @GetMapping("/{id}")
-    public ResponseEntity<Book> findById(@PathVariable Long id) {
+    public ResponseEntity<BookResponseDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok(bookService.findById(id));
     }
 
@@ -42,18 +44,17 @@ public class BookController {
     // @Valid activa las validaciones del modelo (@NotBlank, etc.)
     // @RequestBody convierte el JSON del request en un objeto Book
     @PostMapping
-    public ResponseEntity<Book> save(@Valid @RequestBody Book book) {
-        Book created = bookService.save(book);
+    public ResponseEntity<BookResponseDTO> save(@Valid @RequestBody BookRequestDTO dto) {
         // HTTP 201 Created es más correcto que 200 OK para creaciones
-        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+        return ResponseEntity.status(HttpStatus.CREATED).body(bookService.save(dto));
     }
 
     // PUT /api/books/{id} → actualiza un libro existente
     @PutMapping("/{id}")
-    public ResponseEntity<Book> update(
+    public ResponseEntity<BookResponseDTO> update(
             @PathVariable Long id,
-            @Valid @RequestBody Book book) {
-        return ResponseEntity.ok(bookService.update(id, book));
+            @Valid @RequestBody BookRequestDTO dto) {
+        return ResponseEntity.ok(bookService.update(id, dto));
     }
 
     // DELETE /api/books/{id} → elimina un libro
