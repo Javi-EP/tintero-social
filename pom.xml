@@ -25,5 +25,6 @@
     <modules>
         <module>user-service</module>
         <module>book-service</module>
+        <module>review-service</module>
     </modules>
 </project>
