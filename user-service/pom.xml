@@ -13,7 +13,7 @@
 
     <artifactId>user-service</artifactId>
     <name>user-service</name>
-    <description>Microservicio de usuarios</description>
+    <description>Microservicio de usuarios, login y registro</description>
 
     <url/>
 
@@ -107,6 +107,13 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!-- Swagger UI — documentación visual de la API -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.5.0</version>
         </dependency>
 
     </dependencies>
