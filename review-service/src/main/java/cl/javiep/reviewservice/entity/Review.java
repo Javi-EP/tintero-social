@@ -5,12 +5,12 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "resenas")
+@Table(name = "reviews")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Resena {
+public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,21 +25,21 @@ public class Resena {
     @Column(nullable = false)
     private Integer rating;
 
-    private String titulo;
+    private String title;
 
     @Column(columnDefinition = "TEXT")
-    private String contenido;
+    private String content;
 
-    private LocalDateTime fechaCreacion;
-    private LocalDateTime fechaEdicion;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     @PrePersist
     public void prePersist() {
-        this.fechaCreacion = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now();
     }
 
     @PreUpdate
     public void preUpdate() {
-        this.fechaEdicion = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 }
