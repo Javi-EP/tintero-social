@@ -27,8 +27,8 @@
         <module>book-service</module>
         <module>review-service</module>
         <module>reading-list-service</module>
-        <!--<module>social-service</module>
-        <module>recommendation-service</module> -->
+        <module>social-service</module>
+        <!--<module>recommendation-service</module> -->
         <module>notification-service</module>
         <!--<module>search-service</module>
         <module>stats-service</module>
