@@ -31,7 +31,7 @@
         <module>recommendation-service</module>
         <module>notification-service</module>
         <module>search-service</module>
-        <!--<module>stats-service</module>
-        <module>api-gateway</module> -->
+        <module>stats-service</module>
+        <module>api-gateway</module>
     </modules>
 </project>
