@@ -27,5 +27,6 @@
         <module>book-service</module>
         <module>review-service</module>
         <module>reading-list-service</module>
+        <module>notification-service</module>
     </modules>
 </project>
