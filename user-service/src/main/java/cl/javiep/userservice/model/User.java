@@ -31,8 +31,6 @@ public class User {
 
     private String bio;
 
-    private String avatarUrl;
-
     // Se asigna automáticamente al crear el usuario
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;

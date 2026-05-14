@@ -26,5 +26,4 @@ public class UserRequestDTO {
     private String password;  // llega en texto plano, se hashea en el service
 
     private String bio;
-    private String avatarUrl;
 }

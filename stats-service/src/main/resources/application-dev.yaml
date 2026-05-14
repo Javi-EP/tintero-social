@@ -1,0 +1,30 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem.db_user_stats
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        format_sql: true
+
+services:
+  book-service:
+    url: http://localhost:8082
+  reading-list-service:
+    url: http://localhost:8084
+  user-service:
+    url: http://localhost:8081
+  review-service:
+    url: http://localhost:8083

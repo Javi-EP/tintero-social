@@ -23,6 +23,7 @@ public class ReadingList {
     @Column(nullable = false)
     private Long userId;
 
+    // Nombre de la lista
     @Column(nullable = false)
     private String name;
 

@@ -8,13 +8,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserMapper {
     // RequestDTO → Entidad
-    // Nota: el passwordHash NO se asigna acá — lo hace el service
+    // El passwordHash NO se asigna acá — lo hace el service
     public User toEntity(UserRequestDTO dto) {
         User user = new User();
         user.setName(dto.getName());
         user.setEmail(dto.getEmail());
         user.setBio(dto.getBio());
-        user.setAvatarUrl(dto.getAvatarUrl());
         return user;
     }
 
@@ -25,7 +24,6 @@ public class UserMapper {
         dto.setName(user.getName());
         dto.setEmail(user.getEmail());
         dto.setBio(user.getBio());
-        dto.setAvatarUrl(user.getAvatarUrl());
         dto.setCreatedAt(user.getCreatedAt());
         return dto;
     }

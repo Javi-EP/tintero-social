@@ -82,20 +82,19 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    // Actualizar perfil
+    // Actualizar perfil por id
     public UserResponseDTO update(Long id, UserRequestDTO dto) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
 
         user.setName(dto.getName());
         user.setBio(dto.getBio());
-        user.setAvatarUrl(dto.getAvatarUrl());
         // el email no se actualiza para evitar conflictos con tokens activos
 
         return userMapper.toResponseDTO(userRepository.save(user));
     }
 
-    // Eliminar usuario
+    // Eliminar usuario por id
     public void delete(Long id) {
         userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));

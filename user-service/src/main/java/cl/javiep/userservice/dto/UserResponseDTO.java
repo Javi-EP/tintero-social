@@ -17,7 +17,6 @@ public class UserResponseDTO {
     private String name;
     private String email;
     private String bio;
-    private String avatarUrl;
     private LocalDateTime createdAt;
     // passwordHash nunca aparece acá
 }
