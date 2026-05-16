@@ -1,4 +1,4 @@
-package cl.javiep.recommendationservice.Entity;
+package cl.javiep.recommendationservice.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
