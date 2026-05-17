@@ -32,5 +32,6 @@
         <module>notification-service</module>
         <module>search-service</module>
         <module>stats-service</module>
+        <module>audit-service</module>
     </modules>
 </project>

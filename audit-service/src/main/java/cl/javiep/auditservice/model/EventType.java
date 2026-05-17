@@ -1,0 +1,16 @@
+package cl.javiep.auditservice.model;
+
+public enum EventType {
+    REVIEW_CREATED,
+    REVIEW_UPDATED,
+    REVIEW_DELETED,
+    LIST_CREATED,
+    LIST_DELETED,
+    BOOK_ADDED_TO_LIST,
+    BOOK_REMOVED_FROM_LIST,
+    USER_FOLLOWED,
+    USER_UNFOLLOWED,
+    USER_REGISTERED,
+    USER_UPDATED,
+    USER_DELETED
+}
