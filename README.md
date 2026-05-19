@@ -86,7 +86,7 @@ tintero-social/
 
 ## 👥 Equipo
 
-Proyecto académico desarrollado para el curso **DSY1103** de [DuocUC](https://www.duoc.cl).
+Proyecto académico desarrollado junto a Eloy Contreras para el curso **DSY1103** de [DuocUC](https://www.duoc.cl).
 
 ---
 
