@@ -2,7 +2,7 @@ spring:
   application:
     name: stats-service
   profiles:
-    active: dev
+    active: prod
 
 server:
   port: 8089

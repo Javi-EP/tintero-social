@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/db_users?useSSL=false&serverTimezone=America/Santiago
+    url: jdbc:mysql://localhost:3306/db_searchs?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password:
@@ -14,7 +14,8 @@ spring:
         format_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
 
-
-jwt:
-  secret: tintero-social-secret-key-muy-larga-para-que-sea-segura-2026
-  expiration: 86400000
+services:
+  book-service:
+    url: http://localhost:8082
+  user-service:
+    url: http://localhost:8081

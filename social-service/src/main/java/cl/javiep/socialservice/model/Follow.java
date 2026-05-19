@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "follows", uniqueConstraints = @UniqueConstraint(columnNames = {"follower_id","followed_id"}))
+@Table(name = "follows")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

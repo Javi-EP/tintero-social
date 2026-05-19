@@ -2,7 +2,7 @@ spring:
   application:
     name: social-service
   profiles:
-    active: h2
+    active: dev
 
 server:
   port: 8085

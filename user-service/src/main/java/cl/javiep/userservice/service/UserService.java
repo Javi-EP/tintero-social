@@ -5,8 +5,10 @@ import cl.javiep.userservice.mapper.UserMapper;
 import cl.javiep.userservice.model.User;
 import cl.javiep.userservice.repository.UserRepository;
 import cl.javiep.userservice.security.JwtUtil;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -70,7 +72,8 @@ public class UserService {
     // Obtener perfil por ID
     public UserResponseDTO findById(Long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Usuario no encontrado con ID: " + id));
         return userMapper.toResponseDTO(user);
     }
 

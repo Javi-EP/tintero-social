@@ -2,7 +2,7 @@ spring:
   application:
     name: reading-list-service
   profiles:
-    active: dev
+    active: prod
 
 server:
   port: 8084
