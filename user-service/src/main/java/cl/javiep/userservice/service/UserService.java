@@ -5,8 +5,10 @@ import cl.javiep.userservice.mapper.UserMapper;
 import cl.javiep.userservice.model.User;
 import cl.javiep.userservice.repository.UserRepository;
 import cl.javiep.userservice.security.JwtUtil;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -37,7 +39,7 @@ public class UserService {
         // Verificar que el email no esté en uso
         if (userRepository.existsByEmail(dto.getEmail())) {
             log.warn("El email '{}' ya ha sido utilizado.",dto.getEmail());
-            throw new RuntimeException("El email ya está registrado: " + dto.getEmail());
+            throw new IllegalArgumentException("El email ya está registrado: " + dto.getEmail());
         }
 
         User user = userMapper.toEntity(dto);
@@ -50,11 +52,11 @@ public class UserService {
     // Login — retorna token JWT si las credenciales son correctas
     public LoginResponseDTO login(LoginRequestDTO dto) {
         User user = userRepository.findByEmail(dto.getEmail())
-                .orElseThrow(() -> new RuntimeException("Credenciales inválidas"));
+                .orElseThrow(() -> new BadCredentialsException("Credenciales inválidas"));
 
         // Compara la contraseña ingresada con el hash guardado
         if (!passwordEncoder.matches(dto.getPassword(), user.getPasswordHash())) {
-            throw new RuntimeException("Credenciales inválidas");
+            throw new BadCredentialsException("Credenciales inválidas");
         }
 
         String token = jwtUtil.generateToken(user.getId(), user.getEmail());
@@ -76,8 +78,7 @@ public class UserService {
     // Obtener perfil por ID
     public UserResponseDTO findById(Long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "Usuario no encontrado con ID: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado con ID: " + id));
         return userMapper.toResponseDTO(user);
     }
 
