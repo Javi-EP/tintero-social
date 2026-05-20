@@ -6,3 +6,12 @@ spring:
 
 server:
   port: 8081
+
+logging:
+  level:
+    root: INFO
+    cl.javiep.userservice: DEBUG
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%-5level] %logger{0} - %msg%n"
+  file:
+    name: logs/users.log

@@ -18,3 +18,8 @@ spring:
 jwt:
   secret: tintero-social-secret-key-muy-larga-para-que-sea-segura-2026
   expiration: 86400000
+
+logging:
+  level:
+    root: INFO
+    cl.javiep.userservice: INFO

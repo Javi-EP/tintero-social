@@ -5,6 +5,7 @@ import cl.javiep.userservice.mapper.UserMapper;
 import cl.javiep.userservice.model.User;
 import cl.javiep.userservice.repository.UserRepository;
 import cl.javiep.userservice.security.JwtUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
@@ -31,15 +33,17 @@ public class UserService {
 
     // Registrar nuevo usuario
     public UserResponseDTO register(UserRequestDTO dto) {
+        log.info("Registrando usuario: '{}' ",dto.getName());
         // Verificar que el email no esté en uso
         if (userRepository.existsByEmail(dto.getEmail())) {
+            log.warn("El email '{}' ya ha sido utilizado.",dto.getEmail());
             throw new RuntimeException("El email ya está registrado: " + dto.getEmail());
         }
 
         User user = userMapper.toEntity(dto);
         // Hashear la contraseña antes de guardar — NUNCA texto plano
         user.setPasswordHash(passwordEncoder.encode(dto.getPassword()));
-
+        log.info("Usuario registrado exitosamente: '{}'",user.getName());
         return userMapper.toResponseDTO(userRepository.save(user));
     }
 
