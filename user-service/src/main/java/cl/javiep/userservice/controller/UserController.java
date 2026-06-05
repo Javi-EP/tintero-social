@@ -2,6 +2,10 @@ package cl.javiep.userservice.controller;
 
 import cl.javiep.userservice.dto.*;
 import cl.javiep.userservice.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 //@CrossOrigin(origins = "*")
+@Tag(name = "Users", description = "Operaciones para gestionar usuarios")
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -22,6 +27,8 @@ public class UserController {
     }
 
     // POST /api/users/register — registrar nuevo usuario
+    @Operation(summary = "Registrar usuario", description = "Registra a un usuario")
+    @ApiResponse(responseCode = "201", description = "Usuario registrado exitosamente")
     @PostMapping("/register")
     public ResponseEntity<UserResponseDTO> register(@Valid @RequestBody UserRequestDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.register(dto));
@@ -42,12 +49,19 @@ public class UserController {
     }
 
     // GET /api/users — listar todos los usuarios
+    @Operation(summary = "Listar usuarios", description = "Obtiene todos los usuarios registrados")
+    @ApiResponse(responseCode = "200", description = "Usuarios obtenidos correctamente")
     @GetMapping
     public ResponseEntity<List<UserResponseDTO>> findAll() {
         return ResponseEntity.ok(userService.findAll());
     }
 
     // GET /api/users/{id} — obtener perfil por ID
+    @Operation(summary = "Buscar usuario por id")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Usuario encontrado"),
+            @ApiResponse(responseCode = "404", description = "Usuario no encontrado")
+    })
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok(userService.findById(id));

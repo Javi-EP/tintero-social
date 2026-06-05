@@ -1,0 +1,205 @@
+2026-06-04T22:00:40.239-04:00  INFO 8616 --- [user-service] [main] c.j.u.UserServiceApplicationTests        : Starting UserServiceApplicationTests using Java 21.0.9 with PID 8616 (started by SJ-Alumno in C:\Users\sj-alumno\IdeaProjects\tintero-social\user-service)
+2026-06-04T22:00:40.241-04:00 DEBUG 8616 --- [user-service] [main] c.j.u.UserServiceApplicationTests        : Running with Spring Boot v4.0.6, Spring v7.0.7
+2026-06-04T22:00:40.242-04:00  INFO 8616 --- [user-service] [main] c.j.u.UserServiceApplicationTests        : The following 1 profile is active: "dev"
+2026-06-04T22:00:41.321-04:00  INFO 8616 --- [user-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-04T22:00:41.410-04:00  INFO 8616 --- [user-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 64 ms. Found 1 JPA repository interface.
+2026-06-04T22:00:42.059-04:00  INFO 8616 --- [user-service] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-04T22:00:42.146-04:00  INFO 8616 --- [user-service] [main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.12.Final
+2026-06-04T22:00:42.872-04:00  INFO 8616 --- [user-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-04T22:00:42.914-04:00  INFO 8616 --- [user-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-06-04T22:00:43.142-04:00  INFO 8616 --- [user-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:db_users user=SA
+2026-06-04T22:00:43.145-04:00  INFO 8616 --- [user-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-06-04T22:00:43.218-04:00  INFO 8616 --- [user-service] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:db_users]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: DB_USERS/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-04T22:00:44.227-04:00  INFO 8616 --- [user-service] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-04T22:00:44.271-04:00  INFO 8616 --- [user-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-04T22:00:44.384-04:00  INFO 8616 --- [user-service] [main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-04T22:00:44.772-04:00  WARN 8616 --- [user-service] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-04T22:00:44.929-04:00  WARN 8616 --- [user-service] [main] .s.a.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 58594668-8adc-4ae6-887a-6bccb7e4d942
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-06-04T22:00:44.941-04:00  INFO 8616 --- [user-service] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-06-04T22:00:45.856-04:00  INFO 8616 --- [user-service] [main] o.s.b.h.a.H2ConsoleAutoConfiguration     : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:db_users'
+2026-06-04T22:00:45.987-04:00  INFO 8616 --- [user-service] [main] c.j.u.UserServiceApplicationTests        : Started UserServiceApplicationTests in 6.243 seconds (process running for 8.572)
+2026-06-04T22:00:45.992-04:00  WARN 8616 --- [user-service] [main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-06-04T22:00:45.993-04:00  WARN 8616 --- [user-service] [main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-06-04T22:00:47.017-04:00  INFO 8616 --- [user-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-04T22:00:47.023-04:00  INFO 8616 --- [user-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-06-04T22:00:47.027-04:00  INFO 8616 --- [user-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-06-04T22:01:31.366-04:00  INFO 14176 --- [user-service] [main] c.j.u.UserServiceApplicationTests        : Starting UserServiceApplicationTests using Java 21.0.9 with PID 14176 (started by SJ-Alumno in C:\Users\sj-alumno\IdeaProjects\tintero-social\user-service)
+2026-06-04T22:01:31.368-04:00 DEBUG 14176 --- [user-service] [main] c.j.u.UserServiceApplicationTests        : Running with Spring Boot v4.0.6, Spring v7.0.7
+2026-06-04T22:01:31.369-04:00  INFO 14176 --- [user-service] [main] c.j.u.UserServiceApplicationTests        : The following 1 profile is active: "dev"
+2026-06-04T22:01:32.377-04:00  INFO 14176 --- [user-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-04T22:01:32.449-04:00  INFO 14176 --- [user-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 58 ms. Found 1 JPA repository interface.
+2026-06-04T22:01:33.042-04:00  INFO 14176 --- [user-service] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-04T22:01:33.146-04:00  INFO 14176 --- [user-service] [main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.12.Final
+2026-06-04T22:01:33.864-04:00  INFO 14176 --- [user-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-04T22:01:33.904-04:00  INFO 14176 --- [user-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-06-04T22:01:34.222-04:00  INFO 14176 --- [user-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:db_users user=SA
+2026-06-04T22:01:34.226-04:00  INFO 14176 --- [user-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-06-04T22:01:34.315-04:00  INFO 14176 --- [user-service] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:db_users]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: DB_USERS/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-04T22:01:35.292-04:00  INFO 14176 --- [user-service] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-04T22:01:35.336-04:00  INFO 14176 --- [user-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-04T22:01:35.442-04:00  INFO 14176 --- [user-service] [main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-04T22:01:35.870-04:00  WARN 14176 --- [user-service] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-04T22:01:36.025-04:00  WARN 14176 --- [user-service] [main] .s.a.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 7f607408-d303-46a4-a905-e8fe1b015800
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-06-04T22:01:36.037-04:00  INFO 14176 --- [user-service] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-06-04T22:01:36.814-04:00  INFO 14176 --- [user-service] [main] o.s.b.h.a.H2ConsoleAutoConfiguration     : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:db_users'
+2026-06-04T22:01:36.939-04:00  INFO 14176 --- [user-service] [main] c.j.u.UserServiceApplicationTests        : Started UserServiceApplicationTests in 6.042 seconds (process running for 7.971)
+2026-06-04T22:01:36.943-04:00  WARN 14176 --- [user-service] [main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-06-04T22:01:36.944-04:00  WARN 14176 --- [user-service] [main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-06-04T22:01:37.520-04:00  INFO 14176 --- [user-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-04T22:01:37.525-04:00  INFO 14176 --- [user-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-06-04T22:01:37.529-04:00  INFO 14176 --- [user-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-06-04T22:12:28.055-04:00  INFO 18808 --- [user-service] [main] c.j.u.UserServiceApplicationTests        : Starting UserServiceApplicationTests using Java 21.0.9 with PID 18808 (started by SJ-Alumno in C:\Users\sj-alumno\IdeaProjects\tintero-social\user-service)
+2026-06-04T22:12:28.057-04:00 DEBUG 18808 --- [user-service] [main] c.j.u.UserServiceApplicationTests        : Running with Spring Boot v4.0.6, Spring v7.0.7
+2026-06-04T22:12:28.058-04:00  INFO 18808 --- [user-service] [main] c.j.u.UserServiceApplicationTests        : The following 1 profile is active: "dev"
+2026-06-04T22:12:29.208-04:00  INFO 18808 --- [user-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-04T22:12:29.272-04:00  INFO 18808 --- [user-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 51 ms. Found 1 JPA repository interface.
+2026-06-04T22:12:29.891-04:00  INFO 18808 --- [user-service] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-04T22:12:30.013-04:00  INFO 18808 --- [user-service] [main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.12.Final
+2026-06-04T22:12:30.664-04:00  INFO 18808 --- [user-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-04T22:12:30.706-04:00  INFO 18808 --- [user-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-06-04T22:12:30.894-04:00  INFO 18808 --- [user-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:db_users user=SA
+2026-06-04T22:12:30.897-04:00  INFO 18808 --- [user-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-06-04T22:12:30.968-04:00  INFO 18808 --- [user-service] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:db_users]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: DB_USERS/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-04T22:12:31.900-04:00  INFO 18808 --- [user-service] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-04T22:12:31.947-04:00  INFO 18808 --- [user-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-04T22:12:32.075-04:00  INFO 18808 --- [user-service] [main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-04T22:12:32.458-04:00  WARN 18808 --- [user-service] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-04T22:12:32.616-04:00  WARN 18808 --- [user-service] [main] .s.a.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: de7aab4c-8086-4648-aa11-4dd144a5452b
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-06-04T22:12:32.632-04:00  INFO 18808 --- [user-service] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-06-04T22:12:33.472-04:00  INFO 18808 --- [user-service] [main] o.s.b.h.a.H2ConsoleAutoConfiguration     : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:db_users'
+2026-06-04T22:12:33.586-04:00  INFO 18808 --- [user-service] [main] c.j.u.UserServiceApplicationTests        : Started UserServiceApplicationTests in 6.032 seconds (process running for 7.761)
+2026-06-04T22:12:33.591-04:00  WARN 18808 --- [user-service] [main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-06-04T22:12:33.592-04:00  WARN 18808 --- [user-service] [main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-06-04T22:12:34.225-04:00  INFO 18808 --- [user-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-04T22:12:34.231-04:00  INFO 18808 --- [user-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-06-04T22:12:34.234-04:00  INFO 18808 --- [user-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-06-04T22:13:41.584-04:00  INFO 9100 --- [user-service] [main] c.j.u.UserServiceApplicationTests        : Starting UserServiceApplicationTests using Java 21.0.9 with PID 9100 (started by SJ-Alumno in C:\Users\sj-alumno\IdeaProjects\tintero-social\user-service)
+2026-06-04T22:13:41.586-04:00 DEBUG 9100 --- [user-service] [main] c.j.u.UserServiceApplicationTests        : Running with Spring Boot v4.0.6, Spring v7.0.7
+2026-06-04T22:13:41.586-04:00  INFO 9100 --- [user-service] [main] c.j.u.UserServiceApplicationTests        : The following 1 profile is active: "dev"
+2026-06-04T22:13:42.773-04:00  INFO 9100 --- [user-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-04T22:13:42.834-04:00  INFO 9100 --- [user-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 50 ms. Found 1 JPA repository interface.
+2026-06-04T22:13:43.460-04:00  INFO 9100 --- [user-service] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-04T22:13:43.565-04:00  INFO 9100 --- [user-service] [main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.12.Final
+2026-06-04T22:13:44.232-04:00  INFO 9100 --- [user-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-04T22:13:44.268-04:00  INFO 9100 --- [user-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-06-04T22:13:44.448-04:00  INFO 9100 --- [user-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:db_users user=SA
+2026-06-04T22:13:44.450-04:00  INFO 9100 --- [user-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-06-04T22:13:44.513-04:00  INFO 9100 --- [user-service] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:db_users]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: DB_USERS/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-04T22:13:45.459-04:00  INFO 9100 --- [user-service] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-04T22:13:45.502-04:00  INFO 9100 --- [user-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-04T22:13:45.630-04:00  INFO 9100 --- [user-service] [main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-04T22:13:46.041-04:00  WARN 9100 --- [user-service] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-04T22:13:46.206-04:00  WARN 9100 --- [user-service] [main] .s.a.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 917c9826-158a-4543-8133-b255018bfa78
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-06-04T22:13:46.221-04:00  INFO 9100 --- [user-service] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-06-04T22:13:47.050-04:00  INFO 9100 --- [user-service] [main] o.s.b.h.a.H2ConsoleAutoConfiguration     : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:db_users'
+2026-06-04T22:13:47.174-04:00  INFO 9100 --- [user-service] [main] c.j.u.UserServiceApplicationTests        : Started UserServiceApplicationTests in 6.095 seconds (process running for 7.618)
+2026-06-04T22:13:47.179-04:00  WARN 9100 --- [user-service] [main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-06-04T22:13:47.179-04:00  WARN 9100 --- [user-service] [main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-06-04T22:13:47.824-04:00  INFO 9100 --- [user-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-04T22:13:47.828-04:00  INFO 9100 --- [user-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-06-04T22:13:47.831-04:00  INFO 9100 --- [user-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-06-04T22:14:09.990-04:00  INFO 7244 --- [user-service] [main] c.j.u.UserServiceApplicationTests        : Starting UserServiceApplicationTests using Java 21.0.9 with PID 7244 (started by SJ-Alumno in C:\Users\sj-alumno\IdeaProjects\tintero-social\user-service)
+2026-06-04T22:14:09.992-04:00 DEBUG 7244 --- [user-service] [main] c.j.u.UserServiceApplicationTests        : Running with Spring Boot v4.0.6, Spring v7.0.7
+2026-06-04T22:14:09.993-04:00  INFO 7244 --- [user-service] [main] c.j.u.UserServiceApplicationTests        : The following 1 profile is active: "dev"
+2026-06-04T22:14:11.021-04:00  INFO 7244 --- [user-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-04T22:14:11.096-04:00  INFO 7244 --- [user-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 62 ms. Found 1 JPA repository interface.
+2026-06-04T22:14:11.707-04:00  INFO 7244 --- [user-service] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-04T22:14:11.799-04:00  INFO 7244 --- [user-service] [main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.12.Final
+2026-06-04T22:14:12.505-04:00  INFO 7244 --- [user-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-04T22:14:12.542-04:00  INFO 7244 --- [user-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-06-04T22:14:12.741-04:00  INFO 7244 --- [user-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:db_users user=SA
+2026-06-04T22:14:12.743-04:00  INFO 7244 --- [user-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-06-04T22:14:12.827-04:00  INFO 7244 --- [user-service] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:db_users]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: DB_USERS/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-04T22:14:13.761-04:00  INFO 7244 --- [user-service] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-04T22:14:13.806-04:00  INFO 7244 --- [user-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-04T22:14:13.909-04:00  INFO 7244 --- [user-service] [main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-04T22:14:14.308-04:00  WARN 7244 --- [user-service] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-04T22:14:14.460-04:00  WARN 7244 --- [user-service] [main] .s.a.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 662acaee-b32a-43c1-bbfa-752a132e3c21
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-06-04T22:14:14.472-04:00  INFO 7244 --- [user-service] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-06-04T22:14:15.271-04:00  INFO 7244 --- [user-service] [main] o.s.b.h.a.H2ConsoleAutoConfiguration     : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:db_users'
+2026-06-04T22:14:15.404-04:00  INFO 7244 --- [user-service] [main] c.j.u.UserServiceApplicationTests        : Started UserServiceApplicationTests in 5.908 seconds (process running for 7.937)
+2026-06-04T22:14:15.409-04:00  WARN 7244 --- [user-service] [main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-06-04T22:14:15.409-04:00  WARN 7244 --- [user-service] [main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-06-04T22:14:15.960-04:00  INFO 7244 --- [user-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-04T22:14:15.966-04:00  INFO 7244 --- [user-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-06-04T22:14:15.970-04:00  INFO 7244 --- [user-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
