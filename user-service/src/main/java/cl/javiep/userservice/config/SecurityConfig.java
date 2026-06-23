@@ -35,6 +35,7 @@ public class SecurityConfig {
                                 "/api/users/register",
                                 "/api/users/login",
                                 "/api/users/validate",  // para que otros microservicios validen tokens
+                                "/api/users",
                                 "/api/users/*",
                                 "/h2-console/**",
                                 "/swagger-ui/**",

@@ -1,6 +1,7 @@
 package cl.javiep.reviewservice.controller;
 
 import cl.javiep.reviewservice.dto.*;
+import cl.javiep.reviewservice.service.ReviewLinkAssembler;
 import cl.javiep.reviewservice.service.ReviewService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -8,11 +9,16 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/api/reviews")
@@ -21,51 +27,63 @@ import java.util.List;
 public class ReviewController {
 
     private final ReviewService reviewService;
+    private final ReviewLinkAssembler linkAssembler;
 
-    @Operation(summary = "Crear reseña", description = "Crea una nueva reseña para un libro")
+    @Operation(summary = "Crear reseña", description = "Crea una nueva reseña para un libro. La respuesta incluye enlaces HATEOAS en _links")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Reseña creada exitosamente"),
             @ApiResponse(responseCode = "400", description = "Rating inválido"),
             @ApiResponse(responseCode = "409", description = "Ya existe una reseña de este usuario para este libro")
     })
     @PostMapping
-    public ResponseEntity<ReviewResponseDTO> create(@RequestBody ReviewRequestDTO dto) {
+    public ResponseEntity<EntityModel<ReviewResponseDTO>> create(@RequestBody ReviewRequestDTO dto) {
+        ReviewResponseDTO review = reviewService.createReview(dto);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(reviewService.createReview(dto));
+                .body(linkAssembler.toModel(review));
     }
 
-    @Operation(summary = "Listar reseñas por libro", description = "Obtiene todas las reseñas de un libro específico")
+    @Operation(summary = "Listar reseñas por libro", description = "Obtiene todas las reseñas de un libro específico. La respuesta incluye enlaces HATEOAS en _links")
     @ApiResponse(responseCode = "200", description = "Reseñas obtenidas correctamente")
     @GetMapping("/book/{bookId}")
-    public ResponseEntity<List<ReviewResponseDTO>> getByBook(
+    public ResponseEntity<CollectionModel<EntityModel<ReviewResponseDTO>>> getByBook(
             @Parameter(description = "ID del libro", example = "1")
             @PathVariable Long bookId) {
-        return ResponseEntity.ok(reviewService.getReviewsByBook(bookId));
+        List<EntityModel<ReviewResponseDTO>> reviews = reviewService.getReviewsByBook(bookId).stream()
+                .map(linkAssembler::toModel)
+                .toList();
+        return ResponseEntity.ok(linkAssembler.toCollectionModel(reviews));
     }
 
-    @Operation(summary = "Listar reseñas por usuario", description = "Obtiene todas las reseñas escritas por un usuario")
+    @Operation(summary = "Listar reseñas por usuario", description = "Obtiene todas las reseñas escritas por un usuario. La respuesta incluye enlaces HATEOAS en _links")
     @ApiResponse(responseCode = "200", description = "Reseñas obtenidas correctamente")
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<ReviewResponseDTO>> getByUser(
+    public ResponseEntity<CollectionModel<EntityModel<ReviewResponseDTO>>> getByUser(
             @Parameter(description = "ID del usuario", example = "1")
             @PathVariable Long userId) {
-        return ResponseEntity.ok(reviewService.getReviewsByUser(userId));
+        List<EntityModel<ReviewResponseDTO>> reviews = reviewService.getReviewsByUser(userId).stream()
+                .map(linkAssembler::toModel)
+                .toList();
+        CollectionModel<EntityModel<ReviewResponseDTO>> collection = CollectionModel.of(reviews);
+        collection.add(linkTo(methodOn(ReviewController.class)
+                .getByUser(userId)).withSelfRel());
+        return ResponseEntity.ok(collection);
     }
 
-    @Operation(summary = "Editar reseña", description = "Edita una reseña existente, solo el autor puede editarla")
+    @Operation(summary = "Editar reseña", description = "Edita una reseña existente, solo el autor puede editarla. La respuesta incluye enlaces HATEOAS en _links")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Reseña actualizada correctamente"),
             @ApiResponse(responseCode = "403", description = "No puedes editar una reseña que no es tuya"),
             @ApiResponse(responseCode = "404", description = "Reseña no encontrada")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<ReviewResponseDTO> update(
+    public ResponseEntity<EntityModel<ReviewResponseDTO>> update(
             @Parameter(description = "ID de la reseña", example = "1")
             @PathVariable Long id,
             @Parameter(description = "ID del usuario que edita", example = "1")
             @RequestParam Long userId,
             @RequestBody ReviewRequestDTO dto) {
-        return ResponseEntity.ok(reviewService.updateReview(id, userId, dto));
+        ReviewResponseDTO review = reviewService.updateReview(id, userId, dto);
+        return ResponseEntity.ok(linkAssembler.toModel(review));
     }
 
     @Operation(summary = "Eliminar reseña", description = "Elimina una reseña, solo el autor puede eliminarla")
