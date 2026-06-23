@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/db_books?useSSL=false&serverTimezone=America/Santiago
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Santiago
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password:   # vacío por defecto en XAMPP
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
 
   jpa:
     hibernate:
@@ -13,3 +13,13 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
+
+
+jwt:
+  secret: tintero-social-secret-key-muy-larga-para-que-sea-segura-2026
+  expiration: 86400000
+
+logging:
+  level:
+    root: INFO
+    cl.javiep.userservice: INFO

@@ -13,7 +13,7 @@ import java.util.List;
 public class ReviewClient {
     private final RestClient restClient;
 
-    public ReviewClient(@Value("${services.review-service.url")String url){
+    public ReviewClient(@Value("${services.review-service.url}") String url){
         this.restClient = RestClient.create(url);
     }
 

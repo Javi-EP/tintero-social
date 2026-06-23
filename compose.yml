@@ -1,0 +1,197 @@
+services:
+
+  # ===================== BASES DE DATOS =====================
+
+  mysql-users:
+    image: mysql:8.4
+    container_name: tintero-mysql-users
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: db_users
+      MYSQL_USER: tintero
+      MYSQL_PASSWORD: tintero123
+      MYSQL_ROOT_PASSWORD: root123
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_users_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot123"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  mysql-books:
+    image: mysql:8.4
+    container_name: tintero-mysql-books
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: db_books
+      MYSQL_USER: tintero
+      MYSQL_PASSWORD: tintero123
+      MYSQL_ROOT_PASSWORD: root123
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql_books_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot123"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  mysql-reviews:
+    image: mysql:8.4
+    container_name: tintero-mysql-reviews
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: db_reviews
+      MYSQL_USER: tintero
+      MYSQL_PASSWORD: tintero123
+      MYSQL_ROOT_PASSWORD: root123
+    ports:
+      - "3309:3306"
+    volumes:
+      - mysql_reviews_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot123"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  mysql-reading-lists:
+    image: mysql:8.4
+    container_name: tintero-mysql-reading-lists
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: db_reading_lists
+      MYSQL_USER: tintero
+      MYSQL_PASSWORD: tintero123
+      MYSQL_ROOT_PASSWORD: root123
+    ports:
+      - "3310:3306"
+    volumes:
+      - mysql_reading_lists_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot123"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  mysql-social:
+    image: mysql:8.4
+    container_name: tintero-mysql-social
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: db_social
+      MYSQL_USER: tintero
+      MYSQL_PASSWORD: tintero123
+      MYSQL_ROOT_PASSWORD: root123
+    ports:
+      - "3311:3306"
+    volumes:
+      - mysql_social_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot123"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ===================== MICROSERVICIOS =====================
+
+  user-service:
+    build:
+      context: ./user-service
+    container_name: tintero-user-service
+    restart: unless-stopped
+    depends_on:
+      mysql-users:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_HOST: mysql-users
+      DB_PORT: 3306
+      DB_NAME: db_users
+      DB_USER: tintero
+      DB_PASSWORD: tintero123
+    ports:
+      - "8081:8081"
+
+  book-service:
+    build:
+      context: ./book-service
+    container_name: tintero-book-service
+    restart: unless-stopped
+    depends_on:
+      mysql-books:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_HOST: mysql-books
+      DB_PORT: 3306
+      DB_NAME: db_books
+      DB_USER: tintero
+      DB_PASSWORD: tintero123
+    ports:
+      - "8082:8082"
+
+  review-service:
+    build:
+      context: ./review-service
+    container_name: tintero-review-service
+    restart: unless-stopped
+    depends_on:
+      mysql-reviews:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_HOST: mysql-reviews
+      DB_PORT: 3306
+      DB_NAME: db_reviews
+      DB_USER: tintero
+      DB_PASSWORD: tintero123
+    ports:
+      - "8083:8083"
+
+  reading-list-service:
+    build:
+      context: ./reading-list-service
+    container_name: tintero-reading-list-service
+    restart: unless-stopped
+    depends_on:
+      mysql-reading-lists:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_HOST: mysql-reading-lists
+      DB_PORT: 3306
+      DB_NAME: db_reading_lists
+      DB_USER: tintero
+      DB_PASSWORD: tintero123
+    ports:
+      - "8084:8084"
+
+  social-service:
+    build:
+      context: ./social-service
+    container_name: tintero-social-service
+    restart: unless-stopped
+    depends_on:
+      mysql-social:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_HOST: mysql-social
+      DB_PORT: 3306
+      DB_NAME: db_social
+      DB_USER: tintero
+      DB_PASSWORD: tintero123
+    ports:
+      - "8085:8085"
+
+volumes:
+  mysql_users_data:
+  mysql_books_data:
+  mysql_reviews_data:
+  mysql_reading_lists_data:
+  mysql_social_data:
