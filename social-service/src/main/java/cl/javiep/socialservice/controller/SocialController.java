@@ -3,6 +3,11 @@ package cl.javiep.socialservice.controller;
 import cl.javiep.socialservice.dto.FeedItemDTO;
 import cl.javiep.socialservice.dto.FollowResponseDTO;
 import cl.javiep.socialservice.service.SocialService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +17,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/social")
+@Tag(name = "Social", description = "Operaciones de red social (seguir usuarios, feed de actividad)")
 public class SocialController {
 
     private final SocialService socialService;
@@ -20,45 +26,69 @@ public class SocialController {
         this.socialService = socialService;
     }
 
-    // POST /api/social/follow — seguir a un usuario
+    @Operation(summary = "Seguir usuario", description = "Sigue a un usuario")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Ahora sigues a este usuario"),
+            @ApiResponse(responseCode = "409", description = "Ya sigues a este usuario")
+    })
     @PostMapping("/follow")
     public ResponseEntity<FollowResponseDTO> follow(
+            @Parameter(description = "ID del seguidor", example = "1")
             @RequestParam Long followerId,
+            @Parameter(description = "ID del usuario a seguir", example = "2")
             @RequestParam Long followedId) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(socialService.follow(followerId, followedId));
     }
 
-    // DELETE /api/social/follow — dejar de seguir
+    @Operation(summary = "Dejar de seguir", description = "Deja de seguir a un usuario")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Has dejado de seguir a este usuario"),
+            @ApiResponse(responseCode = "404", description = "No sigues a este usuario")
+    })
     @DeleteMapping("/follow")
     public ResponseEntity<Void> unfollow(
+            @Parameter(description = "ID del seguidor", example = "1")
             @RequestParam Long followerId,
+            @Parameter(description = "ID del usuario a dejar de seguir", example = "2")
             @RequestParam Long followedId) {
         socialService.unfollow(followerId, followedId);
         return ResponseEntity.noContent().build();
     }
 
-    // GET /api/social/followers/{userId} — seguidores de un usuario
+    @Operation(summary = "Obtener seguidores", description = "Obtiene los seguidores de un usuario")
+    @ApiResponse(responseCode = "200", description = "Seguidores obtenidos correctamente")
     @GetMapping("/followers/{userId}")
-    public ResponseEntity<List<FollowResponseDTO>> getFollowers(@PathVariable Long userId) {
+    public ResponseEntity<List<FollowResponseDTO>> getFollowers(
+            @Parameter(description = "ID del usuario", example = "1")
+            @PathVariable Long userId) {
         return ResponseEntity.ok(socialService.getFollowers(userId));
     }
 
-    // GET /api/social/following/{userId} — usuarios que sigue
+    @Operation(summary = "Obtener seguidos", description = "Obtiene los usuarios que sigue un usuario")
+    @ApiResponse(responseCode = "200", description = "Usuarios obtenidos correctamente")
     @GetMapping("/following/{userId}")
-    public ResponseEntity<List<FollowResponseDTO>> getFollowing(@PathVariable Long userId) {
+    public ResponseEntity<List<FollowResponseDTO>> getFollowing(
+            @Parameter(description = "ID del usuario", example = "1")
+            @PathVariable Long userId) {
         return ResponseEntity.ok(socialService.getFollowing(userId));
     }
 
-    // GET /api/social/feed/{userId} — feed de actividad
+    @Operation(summary = "Obtener feed", description = "Obtiene el feed de actividad de un usuario")
+    @ApiResponse(responseCode = "200", description = "Feed obtenido correctamente")
     @GetMapping("/feed/{userId}")
-    public ResponseEntity<List<FeedItemDTO>> getFeed(@PathVariable Long userId) {
+    public ResponseEntity<List<FeedItemDTO>> getFeed(
+            @Parameter(description = "ID del usuario", example = "1")
+            @PathVariable Long userId) {
         return ResponseEntity.ok(socialService.getFeed(userId));
     }
 
-    // GET /api/social/stats/{userId} — estadísticas de seguimiento
+    @Operation(summary = "Obtener estadisticas", description = "Obtiene estadisticas de seguimiento de un usuario")
+    @ApiResponse(responseCode = "200", description = "Estadisticas obtenidas correctamente")
     @GetMapping("/stats/{userId}")
-    public ResponseEntity<Map<String, Long>> getStats(@PathVariable Long userId) {
+    public ResponseEntity<Map<String, Long>> getStats(
+            @Parameter(description = "ID del usuario", example = "1")
+            @PathVariable Long userId) {
         return ResponseEntity.ok(socialService.getStats(userId));
     }
 }

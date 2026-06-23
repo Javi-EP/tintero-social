@@ -4,6 +4,11 @@ import cl.javiep.bookservice.dto.BookRequestDTO;
 import cl.javiep.bookservice.dto.BookResponseDTO;
 import cl.javiep.bookservice.model.Book;
 import cl.javiep.bookservice.service.BookService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-// @RequestMapping define la ruta base de todos los endpoints de esta clase
 @RequestMapping("/api/books")
+@Tag(name = "Books", description = "Operaciones para gestionar libros")
 public class BookController {
 
     private final BookService bookService;
@@ -22,10 +27,11 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    // GET /api/books → lista todos los libros
-    // También acepta GET /api/books?title=harry para filtrar
+    @Operation(summary = "Listar libros", description = "Obtiene todos los libros, opcionalmente filtrados por titulo")
+    @ApiResponse(responseCode = "200", description = "Libros obtenidos correctamente")
     @GetMapping
     public ResponseEntity<List<BookResponseDTO>> list(
+            @Parameter(description = "Titulo del libro para filtrar", example = "Principito")
             @RequestParam(required = false) String title) {
 
         if (title != null) {
@@ -34,22 +40,31 @@ public class BookController {
         return ResponseEntity.ok(bookService.listAll());
     }
 
-    // GET /api/books/{id} → retorna un libro por su ID
+    @Operation(summary = "Buscar libro por ID", description = "Obtiene un libro por su ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Libro encontrado"),
+            @ApiResponse(responseCode = "404", description = "Libro no encontrado")
+    })
     @GetMapping("/{id}")
     public ResponseEntity<BookResponseDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok(bookService.findById(id));
     }
 
-    // POST /api/books → crea un nuevo libro
-    // @Valid activa las validaciones del modelo (@NotBlank, etc.)
-    // @RequestBody convierte el JSON del request en un objeto Book
+    @Operation(summary = "Crear libro", description = "Crea un nuevo libro en el catalogo")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Libro creado exitosamente"),
+            @ApiResponse(responseCode = "400", description = "Datos invalidos")
+    })
     @PostMapping
     public ResponseEntity<BookResponseDTO> save(@Valid @RequestBody BookRequestDTO dto) {
-        // HTTP 201 Created es más correcto que 200 OK para creaciones
         return ResponseEntity.status(HttpStatus.CREATED).body(bookService.save(dto));
     }
 
-    // PUT /api/books/{id} → actualiza un libro existente
+    @Operation(summary = "Actualizar libro", description = "Actualiza los datos de un libro existente")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Libro actualizado correctamente"),
+            @ApiResponse(responseCode = "404", description = "Libro no encontrado")
+    })
     @PutMapping("/{id}")
     public ResponseEntity<BookResponseDTO> update(
             @PathVariable Long id,
@@ -57,11 +72,14 @@ public class BookController {
         return ResponseEntity.ok(bookService.update(id, dto));
     }
 
-    // DELETE /api/books/{id} → elimina un libro
+    @Operation(summary = "Eliminar libro", description = "Elimina un libro del catalogo")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Libro eliminado correctamente"),
+            @ApiResponse(responseCode = "404", description = "Libro no encontrado")
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         bookService.delete(id);
-        // HTTP 204 No Content: operación exitosa pero sin cuerpo en la respuesta
         return ResponseEntity.noContent().build();
     }
 }

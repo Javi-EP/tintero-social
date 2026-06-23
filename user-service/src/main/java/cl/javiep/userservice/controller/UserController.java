@@ -35,6 +35,11 @@ public class UserController {
     }
 
     // POST /api/users/login — iniciar sesión
+    @Operation(summary = "Iniciar sesión", description = "Autentica al usuario y devuelve un token JWT")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Login exitoso"),
+            @ApiResponse(responseCode = "401", description = "Credenciales inválidas")
+    })
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO dto) {
         return ResponseEntity.ok(userService.login(dto));
@@ -42,6 +47,10 @@ public class UserController {
 
     // GET /api/users/validate?token=xxx — valida un token JWT
     // Este endpoint lo usan los otros microservicios
+    @Operation(summary = "Validar token JWT", description = "Verifica si un token JWT es válido (usado por otros microservicios)")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Token validado")
+    })
     @GetMapping("/validate")
     public ResponseEntity<Map<String, Boolean>> validate(@RequestParam String token) {
         boolean valid = userService.validateToken(token);
@@ -68,6 +77,11 @@ public class UserController {
     }
 
     // PUT /api/users/{id} — actualizar perfil
+    @Operation(summary = "Actualizar usuario", description = "Actualiza los datos de un usuario existente")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Usuario actualizado correctamente"),
+            @ApiResponse(responseCode = "404", description = "Usuario no encontrado")
+    })
     @PutMapping("/{id}")
     public ResponseEntity<UserResponseDTO> update(
             @PathVariable Long id,
@@ -76,6 +90,11 @@ public class UserController {
     }
 
     // DELETE /api/users/{id} — eliminar usuario
+    @Operation(summary = "Eliminar usuario", description = "Elimina un usuario por su ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Usuario eliminado correctamente"),
+            @ApiResponse(responseCode = "404", description = "Usuario no encontrado")
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         userService.delete(id);

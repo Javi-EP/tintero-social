@@ -113,15 +113,8 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>2.5.0</version>
+            <version>3.0.3</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>3.0.2</version> <!-- o versiones superiores de la rama 2.x o 3.x según la release de Springdoc -->
-        </dependency>
-
 
     </dependencies>
 

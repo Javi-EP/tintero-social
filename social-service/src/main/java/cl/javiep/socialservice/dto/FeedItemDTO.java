@@ -1,5 +1,6 @@
 package cl.javiep.socialservice.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,14 +12,20 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Schema(description = "Elemento del feed de actividad")
 public class FeedItemDTO {
-    // Tipo de evento: review o follow
+    @Schema(description = "Tipo de evento: review o follow", example = "review")
     private String type;
-    // ID del usuario que generó el evento
+
+    @Schema(description = "ID del usuario que genero el evento", example = "1")
     private Long userId;
-    // Descripción legible del evento
+
+    @Schema(description = "Descripcion legible del evento", example = "Eloy Contreras resenio El Principito")
     private String description;
-    // Datos extra segun el tipo de evento
+
+    @Schema(description = "Datos extra segun el tipo de evento")
     private Object data;
+
+    @Schema(description = "Fecha y hora del evento")
     private LocalDateTime timestamp;
 }
