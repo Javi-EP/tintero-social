@@ -3,6 +3,14 @@ spring:
     name: audit-service
   profiles:
     active: dev
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.hateoas.HateoasAutoConfiguration
 
 server:
   port: 8090
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
