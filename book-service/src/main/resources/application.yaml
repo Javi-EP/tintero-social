@@ -2,7 +2,7 @@ spring:
   application:
     name: book-service
   profiles:
-    active: prod
+    active: dev
 
 server:
   port: 8082
