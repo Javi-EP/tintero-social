@@ -1,0 +1,53 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: http://user-service:8081
+          predicates:
+            - Path=/api/users/**
+
+        - id: book-service
+          uri: http://book-service:8082
+          predicates:
+            - Path=/api/books/**
+
+        - id: review-service
+          uri: http://review-service:8083
+          predicates:
+            - Path=/api/reviews/**
+
+        - id: reading-list-service
+          uri: http://reading-list-service:8084
+          predicates:
+            - Path=/api/lists/**
+
+        - id: social-service
+          uri: http://social-service:8085
+          predicates:
+            - Path=/api/social/**
+
+        - id: recommendation-service
+          uri: http://recommendation-service:8086
+          predicates:
+            - Path=/api/recommendations/**
+
+        - id: notification-service
+          uri: http://notification-service:8087
+          predicates:
+            - Path=/api/notifications/**
+
+        - id: search-service
+          uri: http://search-service:8088
+          predicates:
+            - Path=/api/search/**
+
+        - id: stats-service
+          uri: http://stats-service:8089
+          predicates:
+            - Path=/api/stats/**
+
+        - id: audit-service
+          uri: http://audit-service:8090
+          predicates:
+            - Path=/api/audit/**
