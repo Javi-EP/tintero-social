@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,7 +57,7 @@ public class SearchController {
     @Operation(summary = "Indexar libro", description = "Indexa o actualiza un libro en el índice de búsqueda")
     @ApiResponse(responseCode = "201", description = "Libro indexado exitosamente")
     @PostMapping("/index/book")
-    public ResponseEntity<Void> indexBook(@RequestBody BookIndexDTO dto) {
+    public ResponseEntity<Void> indexBook(@Valid @RequestBody BookIndexDTO dto) {
         searchService.indexBook(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -64,7 +65,7 @@ public class SearchController {
     @Operation(summary = "Indexar usuario", description = "Indexa o actualiza un usuario en el índice de búsqueda")
     @ApiResponse(responseCode = "201", description = "Usuario indexado exitosamente")
     @PostMapping("/index/user")
-    public ResponseEntity<Void> indexUser(@RequestBody UserIndexDTO dto) {
+    public ResponseEntity<Void> indexUser(@Valid @RequestBody UserIndexDTO dto) {
         searchService.indexUser(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

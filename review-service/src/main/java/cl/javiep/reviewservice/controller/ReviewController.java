@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -36,7 +37,7 @@ public class ReviewController {
             @ApiResponse(responseCode = "409", description = "Ya existe una reseña de este usuario para este libro")
     })
     @PostMapping
-    public ResponseEntity<EntityModel<ReviewResponseDTO>> create(@RequestBody ReviewRequestDTO dto) {
+    public ResponseEntity<EntityModel<ReviewResponseDTO>> create(@Valid @RequestBody ReviewRequestDTO dto) {
         ReviewResponseDTO review = reviewService.createReview(dto);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(linkAssembler.toModel(review));
@@ -81,7 +82,7 @@ public class ReviewController {
             @PathVariable Long id,
             @Parameter(description = "ID del usuario que edita", example = "1")
             @RequestParam Long userId,
-            @RequestBody ReviewRequestDTO dto) {
+            @Valid @RequestBody ReviewRequestDTO dto) {
         ReviewResponseDTO review = reviewService.updateReview(id, userId, dto);
         return ResponseEntity.ok(linkAssembler.toModel(review));
     }
@@ -112,7 +113,7 @@ public class ReviewController {
     public ResponseEntity<Void> vote(
             @Parameter(description = "ID de la reseña", example = "1")
             @PathVariable Long id,
-            @RequestBody VoteRequestDTO dto) {
+            @Valid @RequestBody VoteRequestDTO dto) {
         reviewService.voteReview(id, dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
