@@ -10,4 +10,3 @@ mvnw
 mvnw.cmd
 compose.yml
 README.md
-docker-entrypoint.sh
