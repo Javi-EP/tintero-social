@@ -1,0 +1,13 @@
+.git/
+.gitignore
+.gitattributes
+.idea/
+.mvn/
+logs/
+**/target/
+*.md
+mvnw
+mvnw.cmd
+compose.yml
+README.md
+docker-entrypoint.sh
