@@ -27,11 +27,6 @@ COPY --from=builder /build/book-service/target/book-service-*.jar book-service.j
 COPY --from=builder /build/review-service/target/review-service-*.jar review-service.jar
 COPY --from=builder /build/reading-list-service/target/reading-list-service-*.jar reading-list-service.jar
 COPY --from=builder /build/social-service/target/social-service-*.jar social-service.jar
-COPY --from=builder /build/recommendation-service/target/recommendation-service-*.jar recommendation-service.jar
-COPY --from=builder /build/notification-service/target/notification-service-*.jar notification-service.jar
-COPY --from=builder /build/search-service/target/search-service-*.jar search-service.jar
-COPY --from=builder /build/stats-service/target/stats-service-*.jar stats-service.jar
-COPY --from=builder /build/audit-service/target/audit-service-*.jar audit-service.jar
 COPY --from=builder /build/gateway-service/target/gateway-service-*.jar gateway-service.jar
 
 COPY docker-entrypoint.sh /usr/local/bin/
