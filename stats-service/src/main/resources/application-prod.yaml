@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/db_stats?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password:
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
 
   jpa:
     hibernate:
@@ -16,10 +16,10 @@ spring:
 
 services:
   book-service:
-    url: http://localhost:8082
+    url: http://book-service:8082
   user-service:
-    url: http://localhost:8081
+    url: http://user-service:8081
   reading-list-service:
-    url: http://localhost:8084
+    url: http://reading-list-service:8084
   review-service:
-    url: http://localhost:8083
+    url: http://review-service:8083

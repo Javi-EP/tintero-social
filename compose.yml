@@ -97,6 +97,101 @@ services:
       timeout: 5s
       retries: 10
 
+  mysql-recommendations:
+    image: mysql:8.4
+    container_name: tintero-mysql-recommendations
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: db_recommendations
+      MYSQL_USER: tintero
+      MYSQL_PASSWORD: tintero123
+      MYSQL_ROOT_PASSWORD: root123
+    ports:
+      - "3312:3306"
+    volumes:
+      - mysql_recommendations_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot123"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  mysql-notifications:
+    image: mysql:8.4
+    container_name: tintero-mysql-notifications
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: db_notifications
+      MYSQL_USER: tintero
+      MYSQL_PASSWORD: tintero123
+      MYSQL_ROOT_PASSWORD: root123
+    ports:
+      - "3313:3306"
+    volumes:
+      - mysql_notifications_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot123"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  mysql-searchs:
+    image: mysql:8.4
+    container_name: tintero-mysql-searchs
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: db_searchs
+      MYSQL_USER: tintero
+      MYSQL_PASSWORD: tintero123
+      MYSQL_ROOT_PASSWORD: root123
+    ports:
+      - "3314:3306"
+    volumes:
+      - mysql_searchs_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot123"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  mysql-stats:
+    image: mysql:8.4
+    container_name: tintero-mysql-stats
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: db_stats
+      MYSQL_USER: tintero
+      MYSQL_PASSWORD: tintero123
+      MYSQL_ROOT_PASSWORD: root123
+    ports:
+      - "3315:3306"
+    volumes:
+      - mysql_stats_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot123"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  mysql-audit:
+    image: mysql:8.4
+    container_name: tintero-mysql-audit
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: db_audit
+      MYSQL_USER: tintero
+      MYSQL_PASSWORD: tintero123
+      MYSQL_ROOT_PASSWORD: root123
+    ports:
+      - "3316:3306"
+    volumes:
+      - mysql_audit_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot123"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
   # ===================== MICROSERVICIOS =====================
 
   user-service:
@@ -189,6 +284,96 @@ services:
     ports:
       - "8085:8085"
 
+  recommendation-service:
+    build:
+      context: ./recommendation-service
+    container_name: tintero-recommendation-service
+    restart: unless-stopped
+    depends_on:
+      mysql-recommendations:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_HOST: mysql-recommendations
+      DB_PORT: 3306
+      DB_NAME: db_recommendations
+      DB_USER: tintero
+      DB_PASSWORD: tintero123
+    ports:
+      - "8086:8086"
+
+  notification-service:
+    build:
+      context: ./notification-service
+    container_name: tintero-notification-service
+    restart: unless-stopped
+    depends_on:
+      mysql-notifications:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_HOST: mysql-notifications
+      DB_PORT: 3306
+      DB_NAME: db_notifications
+      DB_USER: tintero
+      DB_PASSWORD: tintero123
+    ports:
+      - "8087:8087"
+
+  search-service:
+    build:
+      context: ./search-service
+    container_name: tintero-search-service
+    restart: unless-stopped
+    depends_on:
+      mysql-searchs:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_HOST: mysql-searchs
+      DB_PORT: 3306
+      DB_NAME: db_searchs
+      DB_USER: tintero
+      DB_PASSWORD: tintero123
+    ports:
+      - "8088:8088"
+
+  stats-service:
+    build:
+      context: ./stats-service
+    container_name: tintero-stats-service
+    restart: unless-stopped
+    depends_on:
+      mysql-stats:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_HOST: mysql-stats
+      DB_PORT: 3306
+      DB_NAME: db_stats
+      DB_USER: tintero
+      DB_PASSWORD: tintero123
+    ports:
+      - "8089:8089"
+
+  audit-service:
+    build:
+      context: ./audit-service
+    container_name: tintero-audit-service
+    restart: unless-stopped
+    depends_on:
+      mysql-audit:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_HOST: mysql-audit
+      DB_PORT: 3306
+      DB_NAME: db_audit
+      DB_USER: tintero
+      DB_PASSWORD: tintero123
+    ports:
+      - "8090:8090"
+
   # ===================== API GATEWAY =====================
 
   gateway-service:
@@ -206,6 +391,11 @@ services:
       - review-service
       - reading-list-service
       - social-service
+      - recommendation-service
+      - notification-service
+      - search-service
+      - stats-service
+      - audit-service
 
 volumes:
   mysql_users_data:
@@ -213,3 +403,8 @@ volumes:
   mysql_reviews_data:
   mysql_reading_lists_data:
   mysql_social_data:
+  mysql_recommendations_data:
+  mysql_notifications_data:
+  mysql_searchs_data:
+  mysql_stats_data:
+  mysql_audit_data:
