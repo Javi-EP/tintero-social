@@ -31,3 +31,10 @@ logging:
   level:
     root: INFO
     cl.javiep.userservice: INFO
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/

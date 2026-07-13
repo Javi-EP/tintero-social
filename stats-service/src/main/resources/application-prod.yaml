@@ -23,3 +23,10 @@ services:
     url: http://reading-list-service:8084
   review-service:
     url: http://review-service:8083
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/

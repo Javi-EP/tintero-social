@@ -17,3 +17,10 @@ spring:
 services:
   user-service:
     url: http://user-service:8081
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/

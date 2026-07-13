@@ -41,3 +41,7 @@ spring:
           filters:
             - StripPrefix=1
             - AddRequestHeader=X-Forwarded-Prefix, /api
+
+eureka:
+  client:
+    enabled: false

@@ -24,3 +24,7 @@ logging:
   level:
     root: INFO
     cl.javiep.userservice: DEBUG
+
+eureka:
+  client:
+    enabled: false

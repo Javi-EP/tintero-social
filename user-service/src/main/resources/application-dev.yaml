@@ -23,5 +23,6 @@ jwt:
   secret: tintero-social-secret-key-muy-larga-para-que-sea-segura-2026
   expiration: 86400000
 
-
-
+eureka:
+  instance:
+    prefer-ip-address: true

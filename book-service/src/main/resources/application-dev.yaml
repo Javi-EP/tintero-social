@@ -19,5 +19,6 @@ spring:
       hibernate:
         format_sql: true
 
-
-
+eureka:
+  instance:
+    prefer-ip-address: true

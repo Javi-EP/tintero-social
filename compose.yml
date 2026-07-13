@@ -192,6 +192,18 @@ services:
       timeout: 5s
       retries: 10
 
+  # ===================== EUREKA SERVER =====================
+
+  eureka-server:
+    build:
+      context: ./eureka-server
+    container_name: tintero-eureka
+    restart: unless-stopped
+    ports:
+      - "8761:8761"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+
   # ===================== MICROSERVICIOS =====================
 
   user-service:
@@ -202,6 +214,8 @@ services:
     depends_on:
       mysql-users:
         condition: service_healthy
+      eureka-server:
+        condition: service_started
     environment:
       SPRING_PROFILES_ACTIVE: prod
       DB_HOST: mysql-users
@@ -209,6 +223,7 @@ services:
       DB_NAME: db_users
       DB_USER: tintero
       DB_PASSWORD: tintero123
+      EUREKA_URI: http://eureka-server:8761/eureka/
     ports:
       - "8081:8081"
 
@@ -220,6 +235,8 @@ services:
     depends_on:
       mysql-books:
         condition: service_healthy
+      eureka-server:
+        condition: service_started
     environment:
       SPRING_PROFILES_ACTIVE: prod
       DB_HOST: mysql-books
@@ -227,6 +244,7 @@ services:
       DB_NAME: db_books
       DB_USER: tintero
       DB_PASSWORD: tintero123
+      EUREKA_URI: http://eureka-server:8761/eureka/
     ports:
       - "8082:8082"
 
@@ -238,6 +256,8 @@ services:
     depends_on:
       mysql-reviews:
         condition: service_healthy
+      eureka-server:
+        condition: service_started
     environment:
       SPRING_PROFILES_ACTIVE: prod
       DB_HOST: mysql-reviews
@@ -245,6 +265,7 @@ services:
       DB_NAME: db_reviews
       DB_USER: tintero
       DB_PASSWORD: tintero123
+      EUREKA_URI: http://eureka-server:8761/eureka/
     ports:
       - "8083:8083"
 
@@ -256,6 +277,8 @@ services:
     depends_on:
       mysql-reading-lists:
         condition: service_healthy
+      eureka-server:
+        condition: service_started
     environment:
       SPRING_PROFILES_ACTIVE: prod
       DB_HOST: mysql-reading-lists
@@ -263,6 +286,7 @@ services:
       DB_NAME: db_reading_lists
       DB_USER: tintero
       DB_PASSWORD: tintero123
+      EUREKA_URI: http://eureka-server:8761/eureka/
     ports:
       - "8084:8084"
 
@@ -274,6 +298,8 @@ services:
     depends_on:
       mysql-social:
         condition: service_healthy
+      eureka-server:
+        condition: service_started
     environment:
       SPRING_PROFILES_ACTIVE: prod
       DB_HOST: mysql-social
@@ -281,6 +307,7 @@ services:
       DB_NAME: db_social
       DB_USER: tintero
       DB_PASSWORD: tintero123
+      EUREKA_URI: http://eureka-server:8761/eureka/
     ports:
       - "8085:8085"
 
@@ -292,6 +319,8 @@ services:
     depends_on:
       mysql-recommendations:
         condition: service_healthy
+      eureka-server:
+        condition: service_started
     environment:
       SPRING_PROFILES_ACTIVE: prod
       DB_HOST: mysql-recommendations
@@ -299,6 +328,7 @@ services:
       DB_NAME: db_recommendations
       DB_USER: tintero
       DB_PASSWORD: tintero123
+      EUREKA_URI: http://eureka-server:8761/eureka/
     ports:
       - "8086:8086"
 
@@ -310,6 +340,8 @@ services:
     depends_on:
       mysql-notifications:
         condition: service_healthy
+      eureka-server:
+        condition: service_started
     environment:
       SPRING_PROFILES_ACTIVE: prod
       DB_HOST: mysql-notifications
@@ -317,6 +349,7 @@ services:
       DB_NAME: db_notifications
       DB_USER: tintero
       DB_PASSWORD: tintero123
+      EUREKA_URI: http://eureka-server:8761/eureka/
     ports:
       - "8087:8087"
 
@@ -328,6 +361,8 @@ services:
     depends_on:
       mysql-searchs:
         condition: service_healthy
+      eureka-server:
+        condition: service_started
     environment:
       SPRING_PROFILES_ACTIVE: prod
       DB_HOST: mysql-searchs
@@ -335,6 +370,7 @@ services:
       DB_NAME: db_searchs
       DB_USER: tintero
       DB_PASSWORD: tintero123
+      EUREKA_URI: http://eureka-server:8761/eureka/
     ports:
       - "8088:8088"
 
@@ -346,6 +382,8 @@ services:
     depends_on:
       mysql-stats:
         condition: service_healthy
+      eureka-server:
+        condition: service_started
     environment:
       SPRING_PROFILES_ACTIVE: prod
       DB_HOST: mysql-stats
@@ -353,6 +391,7 @@ services:
       DB_NAME: db_stats
       DB_USER: tintero
       DB_PASSWORD: tintero123
+      EUREKA_URI: http://eureka-server:8761/eureka/
     ports:
       - "8089:8089"
 
@@ -364,6 +403,8 @@ services:
     depends_on:
       mysql-audit:
         condition: service_healthy
+      eureka-server:
+        condition: service_started
     environment:
       SPRING_PROFILES_ACTIVE: prod
       DB_HOST: mysql-audit
@@ -371,6 +412,7 @@ services:
       DB_NAME: db_audit
       DB_USER: tintero
       DB_PASSWORD: tintero123
+      EUREKA_URI: http://eureka-server:8761/eureka/
     ports:
       - "8090:8090"
 
@@ -385,7 +427,9 @@ services:
       - "8080:8080"
     environment:
       SPRING_PROFILES_ACTIVE: prod
+      EUREKA_URI: http://eureka-server:8761/eureka/
     depends_on:
+      - eureka-server
       - user-service
       - book-service
       - review-service
