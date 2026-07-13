@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS notifications (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    user_id BIGINT NOT NULL,
+    sender_id BIGINT,
+    type VARCHAR(255) NOT NULL,
+    message VARCHAR(255) NOT NULL,
+    is_read BIT NOT NULL DEFAULT FALSE,
+    created_at DATETIME(6) NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

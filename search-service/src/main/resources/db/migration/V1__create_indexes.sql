@@ -1,0 +1,18 @@
+CREATE TABLE IF NOT EXISTS book_index (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    book_id BIGINT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    author VARCHAR(255),
+    genre VARCHAR(255),
+    tags VARCHAR(255),
+    rating DOUBLE,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS user_index (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    user_id BIGINT NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    bio VARCHAR(255),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS follows (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    follower_id BIGINT NOT NULL,
+    followed_id BIGINT NOT NULL,
+    created_at DATETIME(6) NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

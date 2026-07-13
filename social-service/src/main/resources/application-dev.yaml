@@ -30,3 +30,7 @@ services:
 eureka:
   instance:
     prefer-ip-address: true
+
+spring:
+  flyway:
+    enabled: false

@@ -34,3 +34,7 @@ logging:
 eureka:
   client:
     enabled: false
+
+spring:
+  flyway:
+    enabled: false
