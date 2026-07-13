@@ -6,48 +6,78 @@ spring:
           uri: http://user-service:8081
           predicates:
             - Path=/api/users/**
+          filters:
+            - StripPrefix=1
+            - AddRequestHeader=X-Forwarded-Prefix, /api
 
         - id: book-service
           uri: http://book-service:8082
           predicates:
             - Path=/api/books/**
+          filters:
+            - StripPrefix=1
+            - AddRequestHeader=X-Forwarded-Prefix, /api
 
         - id: review-service
           uri: http://review-service:8083
           predicates:
             - Path=/api/reviews/**
+          filters:
+            - StripPrefix=1
+            - AddRequestHeader=X-Forwarded-Prefix, /api
 
         - id: reading-list-service
           uri: http://reading-list-service:8084
           predicates:
             - Path=/api/lists/**
+          filters:
+            - StripPrefix=1
+            - AddRequestHeader=X-Forwarded-Prefix, /api
 
         - id: social-service
           uri: http://social-service:8085
           predicates:
             - Path=/api/social/**
+          filters:
+            - StripPrefix=1
+            - AddRequestHeader=X-Forwarded-Prefix, /api
 
         - id: recommendation-service
           uri: http://recommendation-service:8086
           predicates:
             - Path=/api/recommendations/**
+          filters:
+            - StripPrefix=1
+            - AddRequestHeader=X-Forwarded-Prefix, /api
 
         - id: notification-service
           uri: http://notification-service:8087
           predicates:
             - Path=/api/notifications/**
+          filters:
+            - StripPrefix=1
+            - AddRequestHeader=X-Forwarded-Prefix, /api
 
         - id: search-service
           uri: http://search-service:8088
           predicates:
             - Path=/api/search/**
+          filters:
+            - StripPrefix=1
+            - AddRequestHeader=X-Forwarded-Prefix, /api
 
         - id: stats-service
           uri: http://stats-service:8089
           predicates:
             - Path=/api/stats/**
+          filters:
+            - StripPrefix=1
+            - AddRequestHeader=X-Forwarded-Prefix, /api
 
         - id: audit-service
           uri: http://audit-service:8090
           predicates:
             - Path=/api/audit/**
+          filters:
+            - StripPrefix=1
+            - AddRequestHeader=X-Forwarded-Prefix, /api

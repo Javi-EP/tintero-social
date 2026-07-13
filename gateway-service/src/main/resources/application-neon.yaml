@@ -6,23 +6,38 @@ spring:
           uri: http://localhost:8081
           predicates:
             - Path=/api/users/**
+          filters:
+            - StripPrefix=1
+            - AddRequestHeader=X-Forwarded-Prefix, /api
 
         - id: book-service
           uri: http://localhost:8082
           predicates:
             - Path=/api/books/**
+          filters:
+            - StripPrefix=1
+            - AddRequestHeader=X-Forwarded-Prefix, /api
 
         - id: review-service
           uri: http://localhost:8083
           predicates:
             - Path=/api/reviews/**
+          filters:
+            - StripPrefix=1
+            - AddRequestHeader=X-Forwarded-Prefix, /api
 
         - id: reading-list-service
           uri: http://localhost:8084
           predicates:
             - Path=/api/lists/**
+          filters:
+            - StripPrefix=1
+            - AddRequestHeader=X-Forwarded-Prefix, /api
 
         - id: social-service
           uri: http://localhost:8085
           predicates:
             - Path=/api/social/**
+          filters:
+            - StripPrefix=1
+            - AddRequestHeader=X-Forwarded-Prefix, /api
