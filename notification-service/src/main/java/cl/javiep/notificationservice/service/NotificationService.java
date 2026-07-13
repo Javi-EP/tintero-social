@@ -5,11 +5,13 @@ import cl.javiep.notificationservice.dto.NotificationDTO;
 import cl.javiep.notificationservice.mapper.NotificationMapper;
 import cl.javiep.notificationservice.model.Notification;
 import cl.javiep.notificationservice.repository.NotificationRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Slf4j
 public class NotificationService {
     private final NotificationRepository repository;
     private final NotificationMapper mapper;
@@ -22,6 +24,7 @@ public class NotificationService {
     }
 
     public NotificationDTO create(Long userId, Long senderId, String type, String message) {
+        log.info("Creando notificacion para usuario {} tipo={}", userId, type);
         Notification notification = new Notification();
         notification.setUserId(userId);
         notification.setSenderId(senderId);
@@ -30,6 +33,7 @@ public class NotificationService {
         notification.setRead(false);
 
         Notification saved = repository.save(notification);
+        log.info("Notificacion guardada con ID: {}", saved.getId());
         
         NotificationDTO dto = mapper.toDTO(saved);
         
@@ -55,7 +59,7 @@ public class NotificationService {
                         dto.setSenderName(sender.getName());
                     }
                 } catch (Exception e) {
-                    // Si falla, simplemente no setea el nombre
+                    log.warn("Error al obtener senderName para notificacion {}: {}", notification.getId(), e.getMessage());
                 }
             }
             return dto;
@@ -63,9 +67,15 @@ public class NotificationService {
     }
 
     public NotificationDTO markAsRead(Long id) {
+        log.info("Marcando notificacion {} como leida", id);
         Notification notification = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Notification not found"));
+                .orElseThrow(() -> {
+                    log.warn("Notificacion no encontrada con ID: {}", id);
+                    return new RuntimeException("Notification not found");
+                });
         notification.setRead(true);
-        return mapper.toDTO(repository.save(notification));
+        Notification saved = repository.save(notification);
+        log.info("Notificacion {} marcada como leida", saved.getId());
+        return mapper.toDTO(saved);
     }
 }

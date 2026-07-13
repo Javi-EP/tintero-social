@@ -4,6 +4,7 @@ import cl.javiep.recommendationservice.dto.*;
 import cl.javiep.recommendationservice.entity.*;
 import cl.javiep.recommendationservice.repository.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class RecommendationService {
 
     private final RecommendationRepository recommendationRepository;
@@ -20,6 +22,7 @@ public class RecommendationService {
 
     // --- Obtener recomendaciones de un usuario ---
     public List<RecommendationResponseDTO> getRecommendations(Long userId) {
+        log.info("Obteniendo recomendaciones para usuario {}", userId);
         return recommendationRepository.findByUserIdAndDismissedFalse(userId)
                 .stream()
                 .map(this::toDTO)
@@ -28,7 +31,9 @@ public class RecommendationService {
 
     // --- Agregar una recomendación ---
     public RecommendationResponseDTO addRecommendation(RecommendationRequestDTO dto) {
+        log.info("Agregando recomendacion: usuario {} libro {}", dto.getUserId(), dto.getBookId());
         if (recommendationRepository.existsByUserIdAndBookId(dto.getUserId(), dto.getBookId())) {
+            log.warn("Recomendacion duplicada para usuario {} libro {}", dto.getUserId(), dto.getBookId());
             throw new ResponseStatusException(HttpStatus.CONFLICT,
                     "Recommendation already exists for this user and book");
         }
@@ -40,30 +45,39 @@ public class RecommendationService {
                 .reason(dto.getReason())
                 .build();
 
-        return toDTO(recommendationRepository.save(recommendation));
+        Recommendation saved = recommendationRepository.save(recommendation);
+        log.info("Recomendacion creada con ID: {}", saved.getId());
+        return toDTO(saved);
     }
 
     // --- Descartar una recomendación (RF-17) ---
     public void dismissRecommendation(Long userId, Long bookId) {
+        log.info("Descartando recomendacion: usuario {} libro {}", userId, bookId);
         List<Recommendation> list = recommendationRepository
                 .findByUserIdAndDismissedFalse(userId);
 
         Recommendation recommendation = list.stream()
                 .filter(r -> r.getBookId().equals(bookId))
                 .findFirst()
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "Recommendation not found"));
+                .orElseThrow(() -> {
+                    log.warn("Recomendacion no encontrada para usuario {} libro {}", userId, bookId);
+                    return new ResponseStatusException(HttpStatus.NOT_FOUND,
+                            "Recommendation not found");
+                });
 
         recommendation.setDismissed(true);
         recommendationRepository.save(recommendation);
+        log.info("Recomendacion descartada: usuario {} libro {}", userId, bookId);
     }
 
     // --- Regenerar recomendaciones ---
     public void refreshRecommendations(Long userId) {
+        log.info("Refrescando recomendaciones para usuario {}", userId);
         List<GenrePreference> preferences =
                 genrePreferenceRepository.findByUserId(userId);
 
         if (preferences.isEmpty()) {
+            log.warn("Usuario {} sin preferencias de genero para refrescar", userId);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "User has no genre preferences to generate recommendations");
         }
@@ -83,8 +97,10 @@ public class RecommendationService {
 
     // --- Agregar preferencia de género ---
     public void addGenrePreference(GenrePreferenceDTO dto) {
+        log.info("Agregando preferencia de genero: usuario {} genero {}", dto.getUserId(), dto.getGenreId());
         if (genrePreferenceRepository.existsByUserIdAndGenreId(
                 dto.getUserId(), dto.getGenreId())) {
+            log.warn("Preferencia duplicada para usuario {} genero {}", dto.getUserId(), dto.getGenreId());
             throw new ResponseStatusException(HttpStatus.CONFLICT,
                     "Genre preference already exists for this user");
         }
@@ -96,6 +112,7 @@ public class RecommendationService {
                 .build();
 
         genrePreferenceRepository.save(preference);
+        log.info("Preferencia de genero guardada para usuario {}", dto.getUserId());
     }
 
     // --- Helper: entidad a DTO ---

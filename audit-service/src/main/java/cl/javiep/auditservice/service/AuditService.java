@@ -6,12 +6,14 @@ import cl.javiep.auditservice.mapper.AuditMapper;
 import cl.javiep.auditservice.model.AuditEvent;
 import cl.javiep.auditservice.model.EventType;
 import cl.javiep.auditservice.repository.AuditEventRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class AuditService {
 
     private final AuditEventRepository auditEventRepository;
@@ -23,8 +25,10 @@ public class AuditService {
     }
 
     public AuditEventResponseDTO registerEvent(AuditEventRequestDTO dto) {
+        log.info("Registrando evento de auditoria: tipo={} usuario={}", dto.getEventType(), dto.getUserId());
         AuditEvent event = auditMapper.toEntity(dto);
         AuditEvent savedEvent = auditEventRepository.save(event);
+        log.info("Evento de auditoria registrado con ID: {}", savedEvent.getId());
         return auditMapper.toResponseDTO(savedEvent);
     }
 
@@ -63,9 +67,12 @@ public class AuditService {
     }
 
     public void deleteEvent(Long id) {
+        log.info("Eliminando evento de auditoria ID: {}", id);
         if (!auditEventRepository.existsById(id)) {
+            log.warn("Evento de auditoria no encontrado con ID: {}", id);
             throw new RuntimeException("Evento no encontrado con ID: " + id);
         }
         auditEventRepository.deleteById(id);
+        log.info("Evento de auditoria {} eliminado", id);
     }
 }

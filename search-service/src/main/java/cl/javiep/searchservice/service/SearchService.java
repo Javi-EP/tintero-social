@@ -4,6 +4,7 @@ import cl.javiep.searchservice.dto.*;
 import cl.javiep.searchservice.entity.*;
 import cl.javiep.searchservice.repository.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class SearchService {
 
     private final BookIndexRepository bookIndexRepository;
@@ -20,9 +22,11 @@ public class SearchService {
 
     // --- Búsqueda global (libros y usuarios) ---
     public SearchResultDTO globalSearch(String query) {
+        log.info("Busqueda global: {}", query);
         List<BookIndexDTO> books = searchBooks(query);
         List<UserIndexDTO> users = searchUsers(query);
 
+        log.info("Resultados de busqueda global: {} libros, {} usuarios", books.size(), users.size());
         return SearchResultDTO.builder()
                 .books(books)
                 .users(users)
@@ -85,6 +89,7 @@ public class SearchService {
 
     // --- Indexar o actualizar un libro ---
     public void indexBook(BookIndexDTO dto) {
+        log.info("Indexando libro ID: {}", dto.getBookId());
         BookIndex book = bookIndexRepository
                 .findByBookId(dto.getBookId())
                 .orElse(BookIndex.builder().bookId(dto.getBookId()).build());
@@ -96,10 +101,12 @@ public class SearchService {
         book.setRating(dto.getRating());
 
         bookIndexRepository.save(book);
+        log.info("Libro {} indexado correctamente", dto.getBookId());
     }
 
     // --- Indexar o actualizar un usuario ---
     public void indexUser(UserIndexDTO dto) {
+        log.info("Indexando usuario ID: {}", dto.getUserId());
         UserIndex user = userIndexRepository
                 .findByUserId(dto.getUserId())
                 .orElse(UserIndex.builder().userId(dto.getUserId()).build());
@@ -108,6 +115,7 @@ public class SearchService {
         user.setBio(dto.getBio());
 
         userIndexRepository.save(user);
+        log.info("Usuario {} indexado correctamente", dto.getUserId());
     }
 
     // --- Helpers ---

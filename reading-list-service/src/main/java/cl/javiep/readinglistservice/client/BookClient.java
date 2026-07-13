@@ -1,10 +1,12 @@
 package cl.javiep.readinglistservice.client;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
 @Component
+@Slf4j
 public class BookClient {
 
     private final RestClient restClient;
@@ -22,6 +24,7 @@ public class BookClient {
                     .toBodilessEntity();
             return true;
         } catch (Exception e) {
+            log.warn("Error al verificar libro {} en book-service: {}", bookId, e.getMessage());
             return false;
         }
     }

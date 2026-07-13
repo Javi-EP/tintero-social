@@ -1,5 +1,6 @@
 package cl.javiep.readinglistservice.client;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
@@ -7,6 +8,7 @@ import org.springframework.web.client.RestClient;
 import java.util.Map;
 
 @Component
+@Slf4j
 public class UserClient {
 
     private final RestClient restClient;
@@ -27,6 +29,7 @@ public class UserClient {
                     .getBody();
             return (String) response.get("token");
         } catch (Exception e) {
+            log.warn("Error al obtener token de user-service: {}", e.getMessage());
             return null;
         }
     }
@@ -39,6 +42,7 @@ public class UserClient {
                     .toBodilessEntity();
             return true;
         } catch (Exception e) {
+            log.warn("Error al verificar usuario {} en user-service: {}", userId, e.getMessage());
             return false;
         }
     }

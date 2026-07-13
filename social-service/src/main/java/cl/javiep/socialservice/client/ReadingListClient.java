@@ -1,5 +1,6 @@
 package cl.javiep.socialservice.client;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
+@Slf4j
 public class ReadingListClient {
 
     private final RestClient restClient;
@@ -26,6 +28,7 @@ public class ReadingListClient {
                     .retrieve()
                     .body(new ParameterizedTypeReference<List<Map<String, Object>>>() {});
         } catch (Exception e) {
+            log.warn("Error al obtener listas del usuario {} desde reading-list-service: {}", userId, e.getMessage());
             return Collections.emptyList();
         }
     }
