@@ -392,7 +392,7 @@ Proyecto academico desarrollado para el curso **DSY1103** de [DuocUC](https://ww
 
 ## Gestion del proyecto
 
-El seguimiento de tareas se realiza via **GitHub Issues** en el repositorio: [https://github.com/Javi-EP/tintero-social/issues](https://github.com/Javi-EP/tintero-social/issues)
+El seguimiento de tareas se realiza via **GitHub** en el repositorio: [https://github.com/Javi-EP/tintero-social](https://github.com/Javi-EP/tintero-social)
 
 ---
 
