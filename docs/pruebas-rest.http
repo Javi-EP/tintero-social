@@ -1,0 +1,856 @@
+#############################################################################
+# PRUEBS REST — Tintero Social
+# DSY1103 Desarrollo FullStack 1 · DuocUC
+#
+# Compatible con: IntelliJ HTTP Client, VS Code REST Client
+#
+# INSTRUCCIONES:
+#   1. Arrancar los microservicios (o Docker Compose)
+#   2. Ejecutar los requests en orden secuencial
+#   3. Los tokens/IDs generados se deben reemplazar manualmente
+#      (o usar variables de entorno del IDE)
+#
+# ORDEN DE EJECUCION:
+#   1. User Service → registro + login (obtener token)
+#   2. Book Service → crear libros
+#   3. Review Service → crear resenas
+#   4. Reading List Service → crear listas
+#   5. Social Service → follows
+#   6. Los demas servicios dependen de datos previos
+#############################################################################
+
+
+# ╔═══════════════════════════════════════════════════════════════════════╗
+# ║  VARIABLES GLOBALES                                                  ║
+# ╚═══════════════════════════════════════════════════════════════════════╝
+
+@baseUrl = http://localhost:8080
+@contentType = application/json
+
+# Reemplazar con el token obtenido del login
+@token = PEGAR_TOKEN_AQUI
+
+# Reemplazar con IDs obtenidos de las respuestas
+@userId = 1
+@bookId = 1
+@reviewId = 1
+@listId = 1
+@notificationId = 1
+@auditEventId = 1
+
+
+# ╔═══════════════════════════════════════════════════════════════════════╗
+# ║  1. USER SERVICE                                                     ║
+# ╚═══════════════════════════════════════════════════════════════════════╝
+
+# ── 1.1 Registro exitoso ───────────────────────────────────────────────
+# Esperado: 200 con JWT token
+POST {{baseUrl}}/api/users/register
+Content-Type: {{contentType}}
+
+{
+  "name": "Juan Perez",
+  "email": "juan@test.com",
+  "password": "12345678"
+}
+
+###
+
+
+# ── 1.2 Registro con email duplicado ───────────────────────────────────
+# Esperado: 409 Conflict
+POST {{baseUrl}}/api/users/register
+Content-Type: {{contentType}}
+
+{
+  "name": "Juan Duplicate",
+  "email": "juan@test.com",
+  "password": "12345678"
+}
+
+###
+
+
+# ── 1.3 Registro con campos obligatorios faltantes ─────────────────────
+# Esperado: 400 Bad Request
+POST {{baseUrl}}/api/users/register
+Content-Type: {{contentType}}
+
+{
+  "name": "",
+  "email": "",
+  "password": ""
+}
+
+###
+
+
+# ── 1.4 Login exitoso ─────────────────────────────────────────────────
+# Esperado: 200 con JWT token
+# IMPORTANTE: Copiar el token de la respuesta y pegarlo en @token
+POST {{baseUrl}}/api/users/login
+Content-Type: {{contentType}}
+
+{
+  "email": "juan@test.com",
+  "password": "12345678"
+}
+
+###
+
+
+# ── 1.5 Login con credenciales incorrectas ────────────────────────────
+# Esperado: 401 Unauthorized
+POST {{baseUrl}}/api/users/login
+Content-Type: {{contentType}}
+
+{
+  "email": "juan@test.com",
+  "password": "wrongpassword"
+}
+
+###
+
+
+# ── 1.6 Validar token valido ──────────────────────────────────────────
+# Esperado: true
+GET {{baseUrl}}/api/users/validate?token={{token}}
+
+###
+
+
+# ── 1.7 Validar token invalido ────────────────────────────────────────
+# Esperado: false
+GET {{baseUrl}}/api/users/validate?token=token_falso_invalido_123
+
+###
+
+
+# ── 1.8 Listar todos los usuarios ─────────────────────────────────────
+# Esperado: 200 con lista de usuarios
+GET {{baseUrl}}/api/users
+
+###
+
+
+# ── 1.9 Obtener usuario por ID (existente) ────────────────────────────
+# Esperado: 200 con datos del usuario
+GET {{baseUrl}}/api/users/{{userId}}
+
+###
+
+
+# ── 1.10 Obtener usuario inexistente ──────────────────────────────────
+# Esperado: 404 Not Found
+GET {{baseUrl}}/api/users/99999
+
+###
+
+
+# ── 1.11 Actualizar usuario ──────────────────────────────────────────
+# Esperado: 200 con usuario actualizado
+PUT {{baseUrl}}/api/users/{{userId}}
+Content-Type: {{contentType}}
+
+{
+  "name": "Juan Perez Actualizado",
+  "bio": "Lector frecuente de ciencia ficcion"
+}
+
+###
+
+
+# ── 1.12 Eliminar usuario ─────────────────────────────────────────────
+# Esperado: 200
+DELETE {{baseUrl}}/api/users/{{userId}}
+
+###
+
+
+# ── 1.13 Eliminar usuario inexistente ─────────────────────────────────
+# Esperado: 404
+DELETE {{baseUrl}}/api/users/99999
+
+###
+
+
+# ╔═══════════════════════════════════════════════════════════════════════╗
+# ║  2. BOOK SERVICE                                                     ║
+# ╚═══════════════════════════════════════════════════════════════════════╝
+
+
+# ── 2.1 Crear libro exitosamente ──────────────────────────────────────
+# Esperado: 201 Created
+POST {{baseUrl}}/api/books
+Content-Type: {{contentType}}
+
+{
+  "title": "Cien Anos de Soledad",
+  "author": "Gabriel Garcia Marquez",
+  "isbn": "978-0307474728",
+  "genre": "Realismo magico",
+  "synopsis": "La historia de la familia Buendia en el pueblo de Macondo",
+  "publicationYear": 1967
+}
+
+###
+
+
+# ── 2.2 Crear libro con ISBN duplicado ────────────────────────────────
+# Esperado: 409 Conflict
+POST {{baseUrl}}/api/books
+Content-Type: {{contentType}}
+
+{
+  "title": "Otra edicion",
+  "author": "Garcia Marquez",
+  "isbn": "978-0307474728",
+  "genre": "Realismo magico"
+}
+
+###
+
+
+# ── 2.3 Crear libro con campos obligatorios faltantes ─────────────────
+# Esperado: 400 Bad Request
+POST {{baseUrl}}/api/books
+Content-Type: {{contentType}}
+
+{
+  "title": "",
+  "author": ""
+}
+
+###
+
+
+# ── 2.4 Listar todos los libros ──────────────────────────────────────
+# Esperado: 200 con lista de libros
+GET {{baseUrl}}/api/books
+
+###
+
+
+# ── 2.5 Filtrar libros por titulo ────────────────────────────────────
+# Esperado: 200 con libros que contengan "Cien"
+GET {{baseUrl}}/api/books?title=Cien
+
+###
+
+
+# ── 2.6 Obtener libro por ID ────────────────────────────────────────
+# Esperado: 200 con datos del libro
+GET {{baseUrl}}/api/books/{{bookId}}
+
+###
+
+
+# ── 2.7 Actualizar libro ────────────────────────────────────────────
+# Esperado: 200
+PUT {{baseUrl}}/api/books/{{bookId}}
+Content-Type: {{contentType}}
+
+{
+  "title": "Cien Anos de Soledad (Edicion Actualizada)",
+  "author": "Gabriel Garcia Marquez",
+  "isbn": "978-0307474728",
+  "genre": "Realismo magico",
+  "synopsis": "Obra maestra del realismo magico",
+  "publicationYear": 1967
+}
+
+###
+
+
+# ── 2.8 Eliminar libro ──────────────────────────────────────────────
+# Esperado: 200
+DELETE {{baseUrl}}/api/books/{{bookId}}
+
+###
+
+
+# ╔═══════════════════════════════════════════════════════════════════════╗
+# ║  3. REVIEW SERVICE                                                   ║
+# ╚═══════════════════════════════════════════════════════════════════════╝
+
+
+# ── 3.1 Crear resena exitosamente ────────────────────────────────────
+# Esperado: 201 Created
+# Nota: Requiere userId y bookId validos
+POST {{baseUrl}}/api/reviews
+Content-Type: {{contentType}}
+
+{
+  "userId": 1,
+  "bookId": 1,
+  "rating": 5,
+  "title": "Obra maestra",
+  "content": "Una de las mejores novelas de la literatura latinoamericana"
+}
+
+###
+
+
+# ── 3.2 Crear resena con datos invalidos ─────────────────────────────
+# Esperado: 400 Bad Request
+POST {{baseUrl}}/api/reviews
+Content-Type: {{contentType}}
+
+{
+  "userId": null,
+  "bookId": null,
+  "rating": 0
+}
+
+###
+
+
+# ── 3.3 Listar resenas de un libro ───────────────────────────────────
+# Esperado: 200 con lista de resenas
+GET {{baseUrl}}/api/reviews/book/{{bookId}}
+
+###
+
+
+# ── 3.4 Listar resenas de un usuario ─────────────────────────────────
+# Esperado: 200 con lista de resenas
+GET {{baseUrl}}/api/reviews/user/{{userId}}
+
+###
+
+
+# ── 3.5 Editar resena (como autor) ───────────────────────────────────
+# Esperado: 200 con resena actualizada
+PUT {{baseUrl}}/api/reviews/{{reviewId}}?userId={{userId}}
+Content-Type: {{contentType}}
+
+{
+  "rating": 4,
+  "title": "Muy buena pero...",
+  "content": "Excelente novela, aunque el final es confuso"
+}
+
+###
+
+
+# ── 3.6 Editar resena de otro usuario (permisos) ─────────────────────
+# Esperado: 403 Forbidden o 400 (no es autor)
+PUT {{baseUrl}}/api/reviews/{{reviewId}}?userId=99999
+Content-Type: {{contentType}}
+
+{
+  "rating": 1,
+  "title": "Resena ajena",
+  "content": "Intento editar resena de otro usuario"
+}
+
+###
+
+
+# ── 3.7 Eliminar resena ──────────────────────────────────────────────
+# Esperado: 200
+DELETE {{baseUrl}}/api/reviews/{{reviewId}}?userId={{userId}}
+
+###
+
+
+# ── 3.8 Votar resena como util ───────────────────────────────────────
+# Esperado: 200
+# Nota: Requiere una resena existente
+POST {{baseUrl}}/api/reviews/1/vote
+Content-Type: {{contentType}}
+
+{
+  "userId": 2,
+  "type": "UP"
+}
+
+###
+
+
+# ╔═══════════════════════════════════════════════════════════════════════╗
+# ║  4. READING LIST SERVICE                                             ║
+# ╚═══════════════════════════════════════════════════════════════════════╝
+
+
+# ── 4.1 Crear lista de lectura ────────────────────────────────────────
+# Esperado: 201 Created
+POST {{baseUrl}}/api/lists
+Content-Type: {{contentType}}
+
+{
+  "userId": 1,
+  "name": "Mi lista de lectura",
+  "type": "READING",
+  "isPrivate": false
+}
+
+###
+
+
+# ── 4.2 Listar listas de un usuario ───────────────────────────────────
+# Esperado: 200 con listas del usuario
+GET {{baseUrl}}/api/lists/user/{{userId}}
+
+###
+
+
+# ── 4.3 Obtener lista por ID ─────────────────────────────────────────
+# Esperado: 200 con la lista
+GET {{baseUrl}}/api/lists/{{listId}}
+
+###
+
+
+# ── 4.4 Agregar libro a la lista ──────────────────────────────────────
+# Esperado: 200
+# Nota: Requiere listId y bookId validos
+POST {{baseUrl}}/api/lists/{{listId}}/books
+Content-Type: {{contentType}}
+
+{
+  "bookId": 1
+}
+
+###
+
+
+# ── 4.5 Agregar libro duplicado a la lista ────────────────────────────
+# Esperado: 409 Conflict
+POST {{baseUrl}}/api/lists/{{listId}}/books
+Content-Type: {{contentType}}
+
+{
+  "bookId": 1
+}
+
+###
+
+
+# ── 4.6 Actualizar progreso de lectura ────────────────────────────────
+# Esperado: 200
+PUT {{baseUrl}}/api/lists/{{listId}}/books/1/progress?progress=75
+
+###
+
+
+# ── 4.7 Remover libro de la lista ────────────────────────────────────
+# Esperado: 200
+DELETE {{baseUrl}}/api/lists/{{listId}}/books/1
+
+###
+
+
+# ── 4.8 Eliminar lista completa ──────────────────────────────────────
+# Esperado: 200
+DELETE {{baseUrl}}/api/lists/{{listId}}
+
+###
+
+
+# ╔═══════════════════════════════════════════════════════════════════════╗
+# ║  5. SOCIAL SERVICE                                                   ║
+# ╚═══════════════════════════════════════════════════════════════════════╝
+
+
+# ── 5.1 Seguir a un usuario ──────────────────────────────────────────
+# Esperado: 200
+# Nota: Requiere dos usuarios registrados
+POST {{baseUrl}}/api/social/follow?followerId=1&followedId=2
+
+###
+
+
+# ── 5.2 Seguir duplicado ─────────────────────────────────────────────
+# Esperado: 409 Conflict
+POST {{baseUrl}}/api/social/follow?followerId=1&followedId=2
+
+###
+
+
+# ── 5.3 Dejar de seguir ──────────────────────────────────────────────
+# Esperado: 200
+DELETE {{baseUrl}}/api/social/follow?followerId=1&followedId=2
+
+###
+
+
+# ── 5.4 Obtener seguidores de un usuario ─────────────────────────────
+# Esperado: 200 con lista de seguidores
+GET {{baseUrl}}/api/social/followers/{{userId}}
+
+###
+
+
+# ── 5.5 Obtener usuarios que sigue ───────────────────────────────────
+# Esperado: 200 con lista de seguidos
+GET {{baseUrl}}/api/social/following/{{userId}}
+
+###
+
+
+# ── 5.6 Obtener feed de actividad ────────────────────────────────────
+# Esperado: 200 con feed del usuario
+GET {{baseUrl}}/api/social/feed/{{userId}}
+
+###
+
+
+# ── 5.7 Obtener estadisticas de seguimiento ──────────────────────────
+# Esperado: 200 con followersCount y followingCount
+GET {{baseUrl}}/api/social/stats/{{userId}}
+
+###
+
+
+# ╔═══════════════════════════════════════════════════════════════════════╗
+# ║  6. RECOMMENDATION SERVICE                                           ║
+# ╚═══════════════════════════════════════════════════════════════════════╝
+
+
+# ── 6.1 Obtener recomendaciones de un usuario ────────────────────────
+# Esperado: 200 con lista de recomendaciones
+GET {{baseUrl}}/api/recommendations/{{userId}}
+
+###
+
+
+# ── 6.2 Refrescar recomendaciones ────────────────────────────────────
+# Esperado: 200
+POST {{baseUrl}}/api/recommendations/refresh/{{userId}}
+
+###
+
+
+# ── 6.3 Descartar una recomendacion ──────────────────────────────────
+# Esperado: 200
+# Nota: Requiere userId y bookId con recomendacion activa
+POST {{baseUrl}}/api/recommendations/{{userId}}/dismiss/1
+
+###
+
+
+# ── 6.4 Obtener libros trending ──────────────────────────────────────
+# Esperado: 200 con lista de top libros
+GET {{baseUrl}}/api/recommendations/trending
+
+###
+
+
+# ── 6.5 Agregar preferencia de genero ────────────────────────────────
+# Esperado: 200
+POST {{baseUrl}}/api/recommendations/preferences
+Content-Type: {{contentType}}
+
+{
+  "userId": 1,
+  "genreId": 1,
+  "weight": 0.8
+}
+
+###
+
+
+# ╔═══════════════════════════════════════════════════════════════════════╗
+# ║  7. NOTIFICATION SERVICE                                             ║
+# ╚═══════════════════════════════════════════════════════════════════════╝
+
+
+# ── 7.1 Crear notificacion ───────────────────────────────────────────
+# Esperado: 200
+POST {{baseUrl}}/api/notifications?userId=1&senderId=2&type=FOLLOW&message=Usuario%20te%20sigue
+
+###
+
+
+# ── 7.2 Listar notificaciones de un usuario ───────────────────────────
+# Esperado: 200 con lista de notificaciones
+GET {{baseUrl}}/api/notifications/{{userId}}
+
+###
+
+
+# ── 7.3 Marcar notificacion como leida ────────────────────────────────
+# Esperado: 200
+PUT {{baseUrl}}/api/notifications/{{notificationId}}/read
+
+###
+
+
+# ── 7.4 Marcar notificacion inexistente como leida ────────────────────
+# Esperado: 404 Not Found
+PUT {{baseUrl}}/api/notifications/99999/read
+
+###
+
+
+# ╔═══════════════════════════════════════════════════════════════════════╗
+# ║  8. SEARCH SERVICE                                                   ║
+# ╚═══════════════════════════════════════════════════════════════════════╝
+
+
+# ── 8.1 Busqueda global con resultados ────────────────────────────────
+# Esperado: 200 con libros y usuarios que coincidan
+GET {{baseUrl}}/api/search?q=libro
+
+###
+
+
+# ── 8.2 Busqueda sin resultados ──────────────────────────────────────
+# Esperado: 200 con lista vacia []
+GET {{baseUrl}}/api/search?q=xyz123noexisteennadie
+
+###
+
+
+# ── 8.3 Busqueda de libros con filtros ────────────────────────────────
+# Esperado: 200 con libros filtrados
+GET {{baseUrl}}/api/search/books?q=&genre=Realismo&rating=4
+
+###
+
+
+# ── 8.4 Busqueda de usuarios ─────────────────────────────────────────
+# Esperado: 200 con usuarios que coincidan
+GET {{baseUrl}}/api/search/users?q=Juan
+
+###
+
+
+# ── 8.5 Indexar libro en el indice de busqueda ────────────────────────
+# Esperado: 200
+POST {{baseUrl}}/api/search/index/book
+Content-Type: {{contentType}}
+
+{
+  "bookId": 1,
+  "title": "Cien Anos de Soledad",
+  "author": "Gabriel Garcia Marquez",
+  "genre": "Realismo magico",
+  "rating": 4.5
+}
+
+###
+
+
+# ── 8.6 Indexar usuario en el indice de busqueda ──────────────────────
+# Esperado: 200
+POST {{baseUrl}}/api/search/index/user
+Content-Type: {{contentType}}
+
+{
+  "userId": 1,
+  "name": "Juan Perez",
+  "bio": "Lector de ciencia ficcion"
+}
+
+###
+
+
+# ╔═══════════════════════════════════════════════════════════════════════╗
+# ║  9. STATS SERVICE                                                    ║
+# ╚═══════════════════════════════════════════════════════════════════════╝
+
+
+# ── 9.1 Obtener estadisticas de un usuario ────────────────────────────
+# Esperado: 200 con stats del usuario
+GET {{baseUrl}}/api/stats/user/{{userId}}
+
+###
+
+
+# ── 9.2 Obtener estadisticas globales ────────────────────────────────
+# Esperado: 200 con metricas globales
+GET {{baseUrl}}/api/stats/global
+
+###
+
+
+# ── 9.3 Obtener ranking de libros ────────────────────────────────────
+# Esperado: 200 con top libros
+GET {{baseUrl}}/api/stats/books/top
+
+###
+
+
+# ── 9.4 Recalcular estadisticas de un usuario ────────────────────────
+# Esperado: 200
+POST {{baseUrl}}/api/stats/refresh/{{userId}}
+
+###
+
+
+# ╔═══════════════════════════════════════════════════════════════════════╗
+# ║  10. AUDIT SERVICE                                                   ║
+# ╚═══════════════════════════════════════════════════════════════════════╝
+
+
+# ── 10.1 Registrar evento de auditoria ────────────────────────────────
+# Esperado: 200
+POST {{baseUrl}}/api/audit/event
+Content-Type: {{contentType}}
+
+{
+  "userId": 1,
+  "eventType": "USER_REGISTERED",
+  "description": "Usuario registrado exitosamente",
+  "resourceType": "USER",
+  "resourceId": 1
+}
+
+###
+
+
+# ── 10.2 Listar todos los eventos ─────────────────────────────────────
+# Esperado: 200 con lista de eventos
+GET {{baseUrl}}/api/audit/events
+
+###
+
+
+# ── 10.3 Filtrar eventos por usuario ──────────────────────────────────
+# Esperado: 200 con eventos del usuario
+GET {{baseUrl}}/api/audit/events/user/{{userId}}
+
+###
+
+
+# ── 10.4 Filtrar eventos por tipo ────────────────────────────────────
+# Esperado: 200 con eventos del tipo especificado
+GET {{baseUrl}}/api/audit/events/type/USER_REGISTERED
+
+###
+
+
+# ── 10.5 Filtrar eventos por recurso ─────────────────────────────────
+# Esperado: 200 con eventos del recurso
+GET {{baseUrl}}/api/audit/events/resource/USER/1
+
+###
+
+
+# ── 10.6 Eliminar evento de auditoria ────────────────────────────────
+# Esperado: 200
+DELETE {{baseUrl}}/api/audit/events/{{auditEventId}}
+
+###
+
+
+# ╔═══════════════════════════════════════════════════════════════════════╗
+# ║  11. API GATEWAY                                                     ║
+# ╚═══════════════════════════════════════════════════════════════════════╝
+
+# El Gateway (puerto 8080) enruta todas las peticiones a los microservicios.
+# Todas las rutas usan el patron /api/{servicio}/**
+
+
+# ── 11.1 Ruta a user-service (sin token) ──────────────────────────────
+# Esperado: 200 (GET /api/users es publico)
+GET {{baseUrl}}/api/users
+
+###
+
+
+# ── 11.2 Ruta a user-service (con token) ──────────────────────────────
+# Esperado: 200
+GET {{baseUrl}}/api/users
+Authorization: Bearer {{token}}
+
+###
+
+
+# ── 11.3 Ruta a book-service ─────────────────────────────────────────
+# Esperado: 200 (redirige a lb://book-service)
+GET {{baseUrl}}/api/books
+
+###
+
+
+# ── 11.4 Ruta a review-service ────────────────────────────────────────
+# Esperado: 200
+GET {{baseUrl}}/api/reviews/book/1
+
+###
+
+
+# ── 11.5 Ruta a reading-list-service ─────────────────────────────────
+# Esperado: 200
+GET {{baseUrl}}/api/lists/user/1
+
+###
+
+
+# ── 11.6 Ruta a social-service ────────────────────────────────────────
+# Esperado: 200
+GET {{baseUrl}}/api/social/followers/1
+
+###
+
+
+# ── 11.7 Ruta a recommendation-service ────────────────────────────────
+# Esperado: 200
+GET {{baseUrl}}/api/recommendations/trending
+
+###
+
+
+# ── 11.8 Ruta a notification-service ──────────────────────────────────
+# Esperado: 200
+GET {{baseUrl}}/api/notifications/1
+
+###
+
+
+# ── 11.9 Ruta a search-service ────────────────────────────────────────
+# Esperado: 200
+GET {{baseUrl}}/api/search?q=libro
+
+###
+
+
+# ── 11.10 Ruta a stats-service ────────────────────────────────────────
+# Esperado: 200
+GET {{baseUrl}}/api/stats/global
+
+###
+
+
+# ── 11.11 Ruta a audit-service ────────────────────────────────────────
+# Esperado: 200
+GET {{baseUrl}}/api/audit/events
+
+###
+
+
+# ── 11.12 Ruta inexistente ───────────────────────────────────────────
+# Esperado: 404 Not Found
+GET {{baseUrl}}/api/nonexistent/route
+
+###
+
+
+# ── 11.13 Registro via Gateway (flujo completo) ───────────────────────
+# Esperado: 200 con JWT
+POST {{baseUrl}}/api/users/register
+Content-Type: {{contentType}}
+
+{
+  "name": "Test Gateway User",
+  "email": "gateway@test.com",
+  "password": "12345678"
+}
+
+###
+
+
+# ── 11.14 Login via Gateway (flujo completo) ──────────────────────────
+# Esperado: 200 con JWT
+POST {{baseUrl}}/api/users/login
+Content-Type: {{contentType}}
+
+{
+  "email": "gateway@test.com",
+  "password": "12345678"
+}
+
+###
